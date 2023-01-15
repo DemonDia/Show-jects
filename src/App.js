@@ -6,6 +6,8 @@ import "./App.css";
 // ====================================component imports====================================
 // ======================general======================
 import Navbar from "./Components/General/Navbar";
+import { Toolbar } from "@mui/material";
+
 import Footer from "./Components/General/Footer";
 
 // ====================================page imports====================================
@@ -31,6 +33,7 @@ function App() {
         <BrowserRouter>
             <div className="App">
                 <Navbar />
+                <Toolbar/>
                 <div className="pageContainer">
                     {/* ======================authenticaion====================== */}
                     <Routes>
@@ -68,6 +71,11 @@ function App() {
                             exact
                             path="/user/projects"
                             element={<UserProjectPage />}
+                        />
+                        <Route
+                            exact
+                            path="/user/profiole"
+                            element={<UserProfile />}
                         />
                         {/* ======================redirect====================== */}
                         <Route exact path="/" element={<RedirectPage />} />
