@@ -15,6 +15,10 @@ import Footer from "./Components/General/Footer";
 import RegistrationPage from "./Pages/Authentication/RegistrationPage";
 import LoginPage from "./Pages/Authentication/LoginPage";
 
+// ======================homepages======================
+import Homepage from "./Pages/Home/Homepage";
+import Landingpage from "./Pages/Home/Landingpage";
+
 // ======================projects======================
 import CreateProjectPage from "./Pages/Projects/CreateProjectPage";
 import ProjectListPage from "./Pages/Projects/ProjectListPage";
@@ -44,6 +48,18 @@ function App() {
                             element={<RegistrationPage />}
                         />
 
+                        {/* ======================home====================== */}
+                        <Route
+                            exact
+                            path="/home"
+                            element={<Homepage />}
+                        />
+                        <Route
+                            exact
+                            path="/landing"
+                            element={<Landingpage />}
+                        />
+                        
                         {/* ======================projects====================== */}
                         <Route
                             exact

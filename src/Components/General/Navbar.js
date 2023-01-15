@@ -19,6 +19,7 @@ import {
 const drawerWidth = 240;
 // const navItems = ['Home', 'About', 'Contact'];
 const loggedInPages = ["Home", "Own Projects", "Browse Projects", "Logout"];
+const notLoggedInPages = ["Projects","Register","Login"]
 
 function Navbar(props) {
     const { window } = props;
@@ -35,7 +36,7 @@ function Navbar(props) {
             </Typography>
             <Divider />
             <List>
-                {loggedInPages.map((item) => (
+                {notLoggedInPages.map((item) => (
                     <ListItem key={item} disablePadding>
                         <ListItemButton sx={{ textAlign: "center" }}>
                             <ListItemText primary={item} />
@@ -73,8 +74,8 @@ function Navbar(props) {
                         ShowJect
                     </Typography>
                     <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                        {loggedInPages.map((item) => (
-                            <Button key={item} sx={{ color: "#fff" }}>
+                        {notLoggedInPages.map((item) => (
+                            <Button key={item} sx={{ color: "black" }}>
                                 {item}
                             </Button>
                         ))}
