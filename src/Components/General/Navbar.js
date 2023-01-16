@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import {
@@ -16,15 +16,17 @@ import {
     Button,
 } from "@mui/material";
 
+import { useSelector } from "react-redux";
+
+
 const drawerWidth = 240;
-// const navItems = ['Home', 'About', 'Contact'];
 const loggedInPages = ["Home", "Own Projects", "Browse Projects", "Logout"];
-const notLoggedInPages = ["Projects","Register","Login"]
+const notLoggedInPages = ["Projects", "Register", "Login"];
 
 function Navbar(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = useState(false);
-
+    const username = useSelector((state) => state.username);
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
@@ -36,13 +38,27 @@ function Navbar(props) {
             </Typography>
             <Divider />
             <List>
-                {notLoggedInPages.map((item) => (
-                    <ListItem key={item} disablePadding>
-                        <ListItemButton sx={{ textAlign: "center" }}>
-                            <ListItemText primary={item} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
+                {username ? (
+                    <>
+                        {loggedInPages.map((item) => (
+                            <ListItem key={item} disablePadding>
+                                <ListItemButton sx={{ textAlign: "center" }}>
+                                    <ListItemText primary={item} />
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                    </>
+                ) : (
+                    <>
+                        {notLoggedInPages.map((item) => (
+                            <ListItem key={item} disablePadding>
+                                <ListItemButton sx={{ textAlign: "center" }}>
+                                    <ListItemText primary={item} />
+                                </ListItemButton>
+                            </ListItem>
+                        ))}
+                    </>
+                )}
             </List>
         </Box>
     );
@@ -52,7 +68,10 @@ function Navbar(props) {
 
     return (
         <Box sx={{ display: "flex" }}>
-            <AppBar component="nav" sx={{ background: "white" ,color:"black"}}>
+            <AppBar
+                component="nav"
+                sx={{ background: "white", color: "black" }}
+            >
                 <Toolbar>
                     <IconButton
                         color="black"
@@ -74,11 +93,23 @@ function Navbar(props) {
                         ShowJect
                     </Typography>
                     <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                        {notLoggedInPages.map((item) => (
-                            <Button key={item} sx={{ color: "black" }}>
-                                {item}
-                            </Button>
-                        ))}
+                        {username ? (
+                            <>
+                                {loggedInPages.map((item) => (
+                                    <Button key={item} sx={{ color: "black" }}>
+                                        {item}
+                                    </Button>
+                                ))}
+                            </>
+                        ) : (
+                            <>
+                                {notLoggedInPages.map((item) => (
+                                    <Button key={item} sx={{ color: "black" }}>
+                                        {item}
+                                    </Button>
+                                ))}
+                            </>
+                        )}
                     </Box>
                 </Toolbar>
             </AppBar>

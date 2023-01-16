@@ -1,7 +1,9 @@
 // ====================================general imports====================================
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-// ======================redux======================
+
+// ================================redux================================
+import { useSelector } from "react-redux";
 
 // ====================================component imports====================================
 // ======================general======================
@@ -33,73 +35,64 @@ import UserProjectPage from "./Pages/Projects/UserProjectPage";
 import RedirectPage from "./Pages/Redirect/RedirectPage";
 
 function App() {
+    const username = useSelector((state) => state.username);
     return (
-        <BrowserRouter>
-            <div className="App">
-                <Navbar />
-                <Toolbar/>
-                <div className="pageContainer">
-                    {/* ======================authenticaion====================== */}
-                    <Routes>
-                        <Route exact path="/login" element={<LoginPage />} />
-                        <Route
-                            exact
-                            path="/register"
-                            element={<RegistrationPage />}
-                        />
+        <div className="App">
+            <Navbar />
+            <Toolbar />
+            <div className="pageContainer">
+                {/* ======================authenticaion====================== */}
+                <Routes>
+                    <Route exact path="/login" element={<LoginPage />} />
+                    <Route
+                        exact
+                        path="/register"
+                        element={<RegistrationPage />}
+                    />
 
-                        {/* ======================home====================== */}
-                        <Route
-                            exact
-                            path="/home"
-                            element={<Homepage />}
-                        />
-                        <Route
-                            exact
-                            path="/landing"
-                            element={<Landingpage />}
-                        />
-                        
-                        {/* ======================projects====================== */}
-                        <Route
-                            exact
-                            path="/projects"
-                            element={<ProjectListPage />}
-                        />
-                        <Route
-                            exact
-                            path="/projects/create"
-                            element={<CreateProjectPage />}
-                        />
-                        <Route
-                            exact
-                            path="/projects/edit/:projectId"
-                            element={<EditProjectPage />}
-                        />
-                        <Route
-                            exact
-                            path="/projects/:projectId"
-                            element={<IndividualProjectPage />}
-                        />
+                    {/* ======================home====================== */}
+                    <Route exact path="/home" element={<Homepage />} />
+                    <Route exact path="/landing" element={<Landingpage />} />
 
-                        {/* ======================users====================== */}
-                        <Route
-                            exact
-                            path="/user/projects"
-                            element={<UserProjectPage />}
-                        />
-                        <Route
-                            exact
-                            path="/user/profiole"
-                            element={<UserProfile />}
-                        />
-                        {/* ======================redirect====================== */}
-                        <Route exact path="/" element={<RedirectPage />} />
-                    </Routes>
-                </div>
-                <Footer />
+                    {/* ======================projects====================== */}
+                    <Route
+                        exact
+                        path="/projects"
+                        element={<ProjectListPage />}
+                    />
+                    <Route
+                        exact
+                        path="/projects/create"
+                        element={<CreateProjectPage />}
+                    />
+                    <Route
+                        exact
+                        path="/projects/edit/:projectId"
+                        element={<EditProjectPage />}
+                    />
+                    <Route
+                        exact
+                        path="/projects/:projectId"
+                        element={<IndividualProjectPage />}
+                    />
+
+                    {/* ======================users====================== */}
+                    <Route
+                        exact
+                        path="/user/projects"
+                        element={<UserProjectPage />}
+                    />
+                    <Route
+                        exact
+                        path="/user/profiole"
+                        element={<UserProfile />}
+                    />
+                    {/* ======================redirect====================== */}
+                    <Route exact path="/" element={<RedirectPage />} />
+                </Routes>
             </div>
-        </BrowserRouter>
+            <Footer />
+        </div>
     );
 }
 
