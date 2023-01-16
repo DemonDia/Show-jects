@@ -84,14 +84,14 @@ function App() {
                     />
                     <Route
                         exact
-                        path="/user/profiole"
+                        path="/user/profile"
                         element={<UserProfile />}
                     />
                     {/* ======================redirect====================== */}
                     <Route exact path="/" element={<RedirectPage />} />
                 </Routes>
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 }
