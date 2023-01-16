@@ -32,8 +32,8 @@ const redirectAuthCheck = async (navigate) => {
 
 const getCurrentUser = (result) => {
     if (result.status == 200) {
-        const { name } = result.data;
-        return name;
+        const { name,id } = result.data;
+        return { name,id };
     }
     return null;
 };

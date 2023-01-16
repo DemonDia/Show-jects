@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import UserForm from "../../Components/Authentication/UserForm";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { loginPageAuthCheck,getCurrentUser } from "../../HelperFunctions/authCheck";
+import {
+    loginPageAuthCheck,
+    getCurrentUser,
+} from "../../HelperFunctions/authCheck";
 
 import { useDispatch } from "react-redux";
 import { userActions } from "../../Store";
@@ -27,12 +30,12 @@ function RegistrationPage() {
         setLoading(true);
         await loginPageAuthCheck(navigate)
             .then((res) => {
-                const name = getCurrentUser(res);
-                dispatch(userActions.login(name))
+                const { name, id } = getCurrentUser(res);
+                dispatch(userActions.login({ name, id }));
                 setLoading(false);
             })
             .catch(() => {
-                dispatch(userActions.logout())
+                dispatch(userActions.logout());
                 setLoading(false);
             });
     };

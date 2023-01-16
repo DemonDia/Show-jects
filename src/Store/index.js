@@ -4,13 +4,17 @@ const userSlice = createSlice({
     name: "user",
     initialState: {
         username: null,
+        id: null,
     },
     reducers: {
         login(state, action) {
-            state.username = action.payload;
+            const {name,id} =  action.payload
+            state.username = name;
+            state.id = id
         },
         logout(state) {
             state.username = null;
+            state.id = null;
         },
     },
 });

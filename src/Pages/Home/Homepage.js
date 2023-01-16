@@ -42,8 +42,8 @@ function Homepage() {
         setLoading(true);
         await defaultAuthCheck(navigate)
             .then((res) => {
-                const loggedUserName = getCurrentUser(res);
-                dispatch(userActions.login(loggedUserName));
+                const {name,id} = getCurrentUser(res);
+                dispatch(userActions.login({name,id}));
                 setLoading(false);
             })
             .catch(() => {
