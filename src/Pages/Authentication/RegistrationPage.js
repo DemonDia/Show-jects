@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useState } from "react";
+import UserForm from "../../Components/Authentication/UserForm";
+import axios from "axios";
 
-function RegistrationPage(props) {
+function RegistrationPage() {
+    const register = async (newUser) => {
+        await axios
+            .post(process.env.REACT_APP_API_LINK + "/users/", newUser)
+            .then((res) => {
+                const { message } = res.data;
+                alert(message);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
     return (
         <div>
-            <h1>Registration Page</h1>
+            <UserForm mode="register" submitFunction={register} />
         </div>
     );
 }
