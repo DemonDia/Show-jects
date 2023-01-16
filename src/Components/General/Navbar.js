@@ -17,11 +17,45 @@ import {
 } from "@mui/material";
 
 import { useSelector } from "react-redux";
-
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
-const loggedInPages = ["Home", "Own Projects", "Browse Projects", "Logout"];
-const notLoggedInPages = ["Projects", "Register", "Login"];
+const loggedInPages = [
+    {
+        label: "Browse Projects",
+        to: "/projects",
+    },
+    {
+        label: "Add Project",
+        to: "/projects/create",
+    },
+    {
+        label: "Manage Projects",
+        to: "/user/projects",
+    },
+    {
+        label: "View Profile",
+        to: "/user/profile",
+    },
+    {
+        label: "Logout",
+        to: "/logout",
+    },
+];
+const notLoggedInPages = [
+    {
+        label: "Browse Projects",
+        to: "/projects",
+    },
+    {
+        label: "Register",
+        to: "/register",
+    },
+    {
+        label: "Login",
+        to: "/login",
+    },
+];
 
 function Navbar(props) {
     const { window } = props;
@@ -40,23 +74,50 @@ function Navbar(props) {
             <List>
                 {username ? (
                     <>
-                        {loggedInPages.map((item) => (
-                            <ListItem key={item} disablePadding>
-                                <ListItemButton sx={{ textAlign: "center" }}>
-                                    <ListItemText primary={item} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
+                        {loggedInPages.map((item) => {
+                            const { label, to } = item;
+                            return (
+                                <ListItem disablePadding>
+                                    <ListItemButton
+                                        sx={{ textAlign: "center" }}
+                                    >
+                                        <Link
+                                            to={to}
+                                            sx={{
+                                                textDecoration: "none",
+                                                color: "black",
+                                            }}
+                                        >
+                                            <ListItemText primary={label} />
+                                        </Link>
+                                    </ListItemButton>
+                                </ListItem>
+                            );
+                        })}
                     </>
                 ) : (
                     <>
-                        {notLoggedInPages.map((item) => (
-                            <ListItem key={item} disablePadding>
-                                <ListItemButton sx={{ textAlign: "center" }}>
-                                    <ListItemText primary={item} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
+                        {notLoggedInPages.map((item) => {
+                            const { label, to } = item;
+
+                            return (
+                                <ListItem disablePadding>
+                                    <ListItemButton
+                                        sx={{ textAlign: "center" }}
+                                    >
+                                        <Link
+                                            to={to}
+                                            sx={{
+                                                textDecoration: "none",
+                                                color: "black",
+                                            }}
+                                        >
+                                            <ListItemText primary={label} />
+                                        </Link>
+                                    </ListItemButton>
+                                </ListItem>
+                            );
+                        })}
                     </>
                 )}
             </List>
@@ -95,19 +156,41 @@ function Navbar(props) {
                     <Box sx={{ display: { xs: "none", sm: "block" } }}>
                         {username ? (
                             <>
-                                {loggedInPages.map((item) => (
-                                    <Button key={item} sx={{ color: "black" }}>
-                                        {item}
-                                    </Button>
-                                ))}
+                                {loggedInPages.map((item) => {
+                                    const { label, to } = item;
+                                    return (
+                                        <Button sx={{ color: "black" }}>
+                                            <Link
+                                                to={to}
+                                                sx={{
+                                                    textDecoration: "none",
+                                                    color: "black",
+                                                }}
+                                            >
+                                                {label}
+                                            </Link>
+                                        </Button>
+                                    );
+                                })}
                             </>
                         ) : (
                             <>
-                                {notLoggedInPages.map((item) => (
-                                    <Button key={item} sx={{ color: "black" }}>
-                                        {item}
-                                    </Button>
-                                ))}
+                                {notLoggedInPages.map((item) => {
+                                    const { label, to } = item;
+                                    return (
+                                        <Button sx={{ color: "black" }}>
+                                            <Link
+                                                to={to}
+                                                sx={{
+                                                    textDecoration: "none",
+                                                    color: "black",
+                                                }}
+                                            >
+                                                {label}
+                                            </Link>
+                                        </Button>
+                                    );
+                                })}
                             </>
                         )}
                     </Box>

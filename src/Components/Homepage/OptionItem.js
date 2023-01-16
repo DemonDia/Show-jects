@@ -24,6 +24,7 @@ function OptionItem({ option }) {
                     variant="h4"
                     sx={{
                         color: "white",
+                        margin:"5px"
                     }}
                 >
                     {label}

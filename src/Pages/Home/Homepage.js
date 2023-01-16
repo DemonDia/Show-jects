@@ -17,7 +17,7 @@ function Homepage() {
 
     const menuOptions = [
         {
-            label: "Browse Project",
+            label: "Browse Projects",
             to: "/projects",
         },
         {
