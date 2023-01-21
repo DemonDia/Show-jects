@@ -6,7 +6,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../Store";
-
+import axios from "axios";
 import ProjectForm from "../../Components/Projects/ProjectForm";
 
 function CreateProjectPage(props) {
@@ -20,6 +20,7 @@ function CreateProjectPage(props) {
         await defaultAuthCheck(navigate)
             .then((res) => {
                 const { name, id } = getCurrentUser(res);
+                console.log("id", id);
                 dispatch(userActions.login({ name, id }));
                 setLoading(false);
             })
@@ -29,7 +30,23 @@ function CreateProjectPage(props) {
             });
     };
 
-    const createProject = async () => [];
+    const createProject = async (project) => {
+        const currentToken = localStorage.getItem("userToken");
+        await axios
+            .post(
+                process.env.REACT_APP_API_LINK + "/projects/",
+
+                project,
+                { headers: { Authorization: `Bearer ${currentToken}` } }
+            )
+            .then(() => {
+                alert("Project added");
+                // navigate("/projects")
+            })
+            .catch((err) => {
+                alert("Failed to add");
+            });
+    };
 
     useEffect(() => {
         loadPage();
@@ -37,7 +54,15 @@ function CreateProjectPage(props) {
 
     return (
         <div>
-            <ProjectForm submitFunction={createProject} title={"Create Project"} />
+            {loading ? (
+                <></>
+            ) : (
+                <ProjectForm
+                    submitFunction={createProject}
+                    title={"Create Project"}
+                    userId={id}
+                />
+            )}
         </div>
     );
 }
