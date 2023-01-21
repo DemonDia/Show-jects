@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Card,
     Typography,
@@ -35,6 +35,19 @@ function ProjectForm({ submitFunction, title, userId, projectObject }) {
 
     // projectLinks [Array]:
     // LinkLabel, LinkURL
+
+        // ================= load current proj if have =================
+
+    const loadCurrentProject = () =>{
+        console.log("projectObject",projectObject)
+        if(projectObject){
+            const {projectName,projectDescription,status,projectImage,projectLinks} = projectObject
+            setProjectName(projectName)
+            setProjectDescription(projectDescription)
+            setStatus(status)
+            setProjectLinks(projectLinks)
+        }
+    }
 
     // =================when user clicks submit/cancel =================
     const handleSubmit = async () => {
@@ -138,6 +151,10 @@ function ProjectForm({ submitFunction, title, userId, projectObject }) {
         });
         setProjectLinks([...updatedProjectLinks]);
     };
+
+    useEffect(()=>{
+        loadCurrentProject();
+    },[])
 
     return (
         <div>
