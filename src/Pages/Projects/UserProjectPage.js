@@ -1,9 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import {
+    defaultAuthCheck,
+    getCurrentUser,
+} from "../../HelperFunctions/authCheck";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { userActions } from "../../Store";
+import axios from "axios";
+import ProjectListContainer from "../../Components/Projects/ProjectListContainer";
 
-function UserProjectPage(props) {
+function UserProjectPage() {
+    const currentToken = localStorage.getItem("userToken");
+    const [loading, setLoading] = useState(false);
+    const [userProjects, setUserProjects] = useState();
+    const id = useSelector((state) => state.id);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const loadPage = async () => {
+        setLoading(true);
+        await defaultAuthCheck(navigate)
+            .then(async (res) => {
+                const { name, id } = getCurrentUser(res);
+                dispatch(userActions.login({ name, id }));
+                await getUserProjects(id);
+                setLoading(false);
+            })
+            .catch(() => {
+                dispatch(userActions.logout());
+                setLoading(false);
+            });
+    };
+
+    const getUserProjects = async (id) => {
+        setLoading(true);
+        axios
+            .get(`${process.env.REACT_APP_API_LINK}/projects/user/${id}`, {
+                headers: { Authorization: `Bearer ${currentToken}` },
+            })
+            .then((result) => {
+                setUserProjects(result.data.data);
+            })
+            .catch((err) => {});
+    };
+
+    useEffect(() => {
+        loadPage();
+    }, []);
+
     return (
         <div>
-            <h1>User project page\</h1>
+            <h1>User project page</h1>
+            {loading ? (
+                <>Loading...</>
+            ) : (
+                <>
+                    <ProjectListContainer projects={userProjects} isOwner = {true}/>
+                </>
+            )}
         </div>
     );
 }

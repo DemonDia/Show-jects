@@ -9,7 +9,7 @@ import { userActions } from "../../Store";
 import axios from "axios";
 import ProjectForm from "../../Components/Projects/ProjectForm";
 
-function CreateProjectPage(props) {
+function CreateProjectPage() {
     const [loading, setLoading] = useState(false);
     const id = useSelector((state) => state.id);
     const navigate = useNavigate();
@@ -20,7 +20,6 @@ function CreateProjectPage(props) {
         await defaultAuthCheck(navigate)
             .then((res) => {
                 const { name, id } = getCurrentUser(res);
-                console.log("id", id);
                 dispatch(userActions.login({ name, id }));
                 setLoading(false);
             })
@@ -41,7 +40,7 @@ function CreateProjectPage(props) {
             )
             .then(() => {
                 alert("Project added");
-                // navigate("/projects")
+                navigate("/projects")
             })
             .catch((err) => {
                 alert("Failed to add");
