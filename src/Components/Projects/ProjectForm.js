@@ -39,13 +39,15 @@ function ProjectForm({ submitFunction, title, userId, projectObject }) {
         // ================= load current proj if have =================
 
     const loadCurrentProject = () =>{
-        console.log("projectObject",projectObject)
         if(projectObject){
-            const {projectName,projectDescription,status,projectImage,projectLinks} = projectObject
+            const {projectName,projectDescription,status,projectPicture,projectLinks} = projectObject
+            console.log(projectObject)
             setProjectName(projectName)
             setProjectDescription(projectDescription)
             setStatus(status)
             setProjectLinks(projectLinks)
+            setProjectPicture(projectPicture)
+            setImagePreviewURL(projectPicture)
         }
     }
 
@@ -114,8 +116,11 @@ function ProjectForm({ submitFunction, title, userId, projectObject }) {
         setProjectPicture(null);
         setImagePreviewURL("");
     };
+
     // when there is an existing image in the project database
-    const autoUploadImage = () => {};
+    // const autoUploadImage = (selectedImage) => {
+    //     setImagePreviewURL(URL.createObjectURL(selectedImage));
+    // };
 
     // =================project link management=================
     const [projectLinks, setProjectLinks] = useState([]);

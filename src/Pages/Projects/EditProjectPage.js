@@ -43,7 +43,7 @@ function EditProjectPage() {
             )
             .then(() => {
                 alert("Project updated");
-                navigate("/projects");
+                navigate("/user/projects/");
             })
             .catch((err) => {
                 alert("Failed to update");
