@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+    publicAuthCheck,
+    getCurrentUser,
+} from "../../HelperFunctions/authCheck";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { userActions } from "../../Store";
 
 import {
     Card,
@@ -10,7 +14,6 @@ import {
     Paper,
     Typography,
     Button,
-    Link,
     Box,
     TextField,
 } from "@mui/material";
@@ -23,20 +26,25 @@ function IndividualProjectPage() {
     const [loading, setLoading] = useState(false);
     const [currentProject, setCurrentProject] = useState(null);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const id = useSelector((state) => state.id);
     const { projectId } = useParams();
-    const [comment, setComment] = useState("");
-    // const [projectPicture, setProjectPicture] = useState("");
-    // const [projectName, setProjectName] = useState("");
-    // const [projectDescription, setProjectDescription] = useState("");
-    // const [status, setStatus] = useState(0);
-    // const [projectLinks,setProjectLinks] = useState([])
+    const currentToken = localStorage.getItem("userToken");
 
     const loadPage = async () => {
         setLoading(true);
-        await getCurrentProject(projectId).then(() => {
-            setLoading(false);
-        });
+        await publicAuthCheck(navigate)
+            .then(async (res) => {
+                const { name, id } = getCurrentUser(res);
+                dispatch(userActions.login({ name, id }));
+                await getCurrentProject(projectId);
+                setLoading(false);
+            })
+            .catch(() => {
+                dispatch(userActions.logout());
+                setLoading(false);
+            });
     };
 
     const getCurrentProject = async () => {
@@ -49,22 +57,59 @@ function IndividualProjectPage() {
     };
 
     // ==================likes==================
+    const handleLike = async (projectId, userId) => {
+        if (userId) {
+            axios
+                .put(
+                    `${process.env.REACT_APP_API_LINK}/projects/like/${projectId}`,
+                    {
+                        userId,
+                    },
+                    { headers: { Authorization: `Bearer ${currentToken}` } }
+                )
+                .then(async (result) => {
+                    await getCurrentProject();
+                })
+                .catch((err) => {});
+        } else {
+            alert("You must login to like or comment!");
+        }
+    };
 
     // ==================comments==================
+    const [comment, setComment] = useState("");
+    const username = useSelector((state) => state.username);
+    const handleComment = async () => {
+        axios
+            .put(
+                `${process.env.REACT_APP_API_LINK}/projects/comment/add/`,
+                {
+                    userId:id,
+                    userName: username,
+                    projectId,
+                    comment
+                },
+                { headers: { Authorization: `Bearer ${currentToken}` } }
+            )
+            .then(async (result) => {
+                setComment("")
+                await getCurrentProject();
+            })
+            .catch((err) => {});
+    };
+
     useEffect(() => {
         loadPage();
     }, []);
 
     return (
         <div>
-            <h1>Individual Project</h1>
             {loading ? (
                 <></>
             ) : (
                 <>
                     {currentProject ? (
                         <>
-                            {" "}
                             <Card
                                 sx={{
                                     margin: "10px auto;",
@@ -75,6 +120,11 @@ function IndividualProjectPage() {
                                     },
                                 }}
                             >
+                                <br/>
+                                <Link to="/projects" sx={{ textAlign: "left",
+                            margin:"10px" }}>
+                                    Back
+                                </Link>
                                 <Paper variant="outlined">
                                     <img
                                         src={currentProject.projectPicture}
@@ -152,7 +202,7 @@ function IndividualProjectPage() {
                                             <Button
                                                 variant={"filled"}
                                                 onClick={() => {
-                                                    // handleLike(projectId, userId);
+                                                    handleLike(projectId, id);
                                                 }}
                                                 sx={{
                                                     width: "100%",
@@ -201,29 +251,48 @@ function IndividualProjectPage() {
                                         </Grid>
                                     </Grid>
                                     <hr />
-                                    <Box>
-                                        <Grid container>
-                                            <Grid item xs={10}>
-                                                <TextField
-                                                    sx={{
-                                                        width: "100%",
-                                                    }}
-                                                    value={comment}
-                                                    multiline
-                                                    label="Write a comment ..."
-                                                    onChange={(e) => {
-                                                        setComment(
-                                                            e.target.value
-                                                        );
-                                                    }}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={2}>
-                                                <Button>Comment</Button>
-                                            </Grid>
-                                        </Grid>
-                                    </Box>
-                                    <hr />
+                                    {id ? (
+                                        <>
+                                            {" "}
+                                            <Box>
+                                                <Grid container>
+                                                    <Grid item xs={10}>
+                                                        <TextField
+                                                            sx={{
+                                                                width: "100%",
+                                                                margin: "10px auto",
+                                                            }}
+                                                            value={comment}
+                                                            multiline
+                                                            label="Write a comment ..."
+                                                            onChange={(e) => {
+                                                                setComment(
+                                                                    e.target
+                                                                        .value
+                                                                );
+                                                            }}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={2}>
+                                                        <Button
+                                                            onClick={() => {
+                                                                handleComment();
+                                                            }}
+                                                            disabled={
+                                                                comment.length ==
+                                                                0
+                                                            }
+                                                        >
+                                                            Comment
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
+                                            </Box>
+                                            <hr />
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )}
                                     {currentProject.comments.length > 0 ? (
                                         <>
                                             {currentProject.comments.map(
@@ -248,8 +317,8 @@ function IndividualProjectPage() {
                                                                     "left"
                                                                 }
                                                             >
-                                                                {commenterName}{" "}
-                                                                at {commentDate}
+                                                                <b>{commenterName}</b>{" "}
+                                                                at {new Date(commentDate).toLocaleString()}
                                                             </Typography>
                                                             <Typography
                                                                 variant={

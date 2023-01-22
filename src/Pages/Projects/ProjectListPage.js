@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-    defaultAuthCheck,
+    publicAuthCheck,
     getCurrentUser,
 } from "../../HelperFunctions/authCheck";
 import { useNavigate } from "react-router-dom";
@@ -18,22 +18,18 @@ function ProjectListPage() {
 
     const loadPage = async () => {
         setLoading(true);
-        await getAllProjects();
-        setLoading(false)
-        // await defaultAuthCheck(navigate)
-        //     .then(async (res) => {
-        //         const { name, id } = getCurrentUser(res);
-        //         dispatch(userActions.login({ name, id }));
-        //         await getAllProjects();
-        //         setLoading(false);
-        //     })
-        //     .catch(() => {
-        //         dispatch(userActions.logout());
-        //         setLoading(false);
-        //     });
-        // await getAllProjects().then(() => {
-        //     setLoading(false);
-        // });
+
+        await publicAuthCheck(navigate)
+            .then(async (res) => {
+                const { name, id } = getCurrentUser(res);
+                dispatch(userActions.login({ name, id }));
+                await getAllProjects();
+                setLoading(false);
+            })
+            .catch(() => {
+                dispatch(userActions.logout());
+                setLoading(false);
+            });
     };
 
     const getAllProjects = async () => {

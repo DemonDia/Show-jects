@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  min-height:100vh;
+  min-height: 100vh;
 }
 
 .App-header {
@@ -28,7 +28,11 @@
   }
 }
 
-.projectImageContainer{
-  object-fit:cover;
-  height:200px;
+.projectImageContainer {
+  object-fit: cover;
+  height: 200px;
+}
+
+li {
+  text-align: left;
 }

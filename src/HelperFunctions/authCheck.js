@@ -18,6 +18,10 @@ const checkAuthStatus = async (successRoute, failRoute, navigate) => {
     return loggedUser;
 };
 
+const publicAuthCheck = async (navigate) => {
+    return await checkAuthStatus("", "", navigate);
+};
+
 const loginPageAuthCheck = async (navigate) => {
     return await checkAuthStatus("/home", "", navigate);
 };
@@ -32,10 +36,16 @@ const redirectAuthCheck = async (navigate) => {
 
 const getCurrentUser = (result) => {
     if (result.status == 200) {
-        const { name,id } = result.data;
-        return { name,id };
+        const { name, id } = result.data;
+        return { name, id };
     }
     return null;
 };
 
-export { loginPageAuthCheck, defaultAuthCheck, redirectAuthCheck ,getCurrentUser};
+export {
+    loginPageAuthCheck,
+    defaultAuthCheck,
+    redirectAuthCheck,
+    getCurrentUser,
+    publicAuthCheck,
+};
