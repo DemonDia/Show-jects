@@ -176,14 +176,15 @@ function IndividualProjectPage() {
                                             (projectLink) => {
                                                 const { linkName, url } =
                                                     projectLink;
+                                                    console.log(url)
                                                 return (
                                                     <li>
-                                                        <Link
+                                                        <a
                                                             href={url}
                                                             target={"_blank"}
                                                         >
                                                             {linkName}
-                                                        </Link>
+                                                        </a>
                                                     </li>
                                                 );
                                             }
