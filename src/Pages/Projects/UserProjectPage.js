@@ -40,17 +40,29 @@ function UserProjectPage() {
             })
             .then((result) => {
                 setUserProjects(result.data.data);
+                setLoading(false)
             })
             .catch((err) => {});
     };
 
-    const handleDelete = async (projectId)=>{
-        var confirmDelete = alert("Are you sure? This is irrecersible! Type 'yes' to confirm.")
-        if(confirmDelete == "yes"){
-            
+    const handleDelete = async (projectId) => {
+        var confirmDelete = prompt(
+            "Are you sure? This is irrecersible! Type 'yes' to confirm."
+        );
+        if (confirmDelete == "yes") {
+            await axios
+                .delete(
+                    `${process.env.REACT_APP_API_LINK}/projects/${projectId}`,
+                    {
+                        headers: { Authorization: `Bearer ${currentToken}` },
+                    }
+                )
+                .then(async () => {
+                    await getUserProjects(id);
+                    alert("Successfully deleted!");
+                });
         }
-
-    }
+    };
 
     useEffect(() => {
         loadPage();
@@ -63,7 +75,11 @@ function UserProjectPage() {
                 <>Loading...</>
             ) : (
                 <>
-                    <ProjectListContainer projects={userProjects} isOwner = {true}/>
+                    <ProjectListContainer
+                        projects={userProjects}
+                        isOwner={true}
+                        handleDelete={handleDelete}
+                    />
                 </>
             )}
         </div>

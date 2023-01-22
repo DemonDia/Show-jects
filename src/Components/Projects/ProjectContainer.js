@@ -186,6 +186,9 @@ function ProjectContainer({
                                             background: "#CB1919",
                                         },
                                     }}
+                                    onClick={() => {
+                                        handleDelete(_id);
+                                    }}
                                 >
                                     <DeleteOutlineIcon />
                                 </Button>
