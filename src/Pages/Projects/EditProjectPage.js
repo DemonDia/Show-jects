@@ -54,7 +54,6 @@ function EditProjectPage() {
         await axios
             .get(`${process.env.REACT_APP_API_LINK}/projects/${projectId}`)
             .then((res) => {
-                // console.log(res.data);
                 setCurrentProject(res.data.data);
             });
     };

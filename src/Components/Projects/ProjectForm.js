@@ -41,7 +41,6 @@ function ProjectForm({ submitFunction, title, userId, projectObject }) {
     const loadCurrentProject = () =>{
         if(projectObject){
             const {projectName,projectDescription,status,projectPicture,projectLinks} = projectObject
-            console.log(projectObject)
             setProjectName(projectName)
             setProjectDescription(projectDescription)
             setStatus(status)
@@ -80,7 +79,7 @@ function ProjectForm({ submitFunction, title, userId, projectObject }) {
         }
     };
     const handleCancel = () => {
-        navigate("/projects");
+        navigate("/user/projects");
     };
 
     // =================project picture=================
@@ -170,7 +169,6 @@ function ProjectForm({ submitFunction, title, userId, projectObject }) {
                     margin: "10px auto;",
                     width: {
                         xs: "90vw",
-                        // sm: "80vw",
                         md: "70vw",
                         lg: "40vw",
                     },

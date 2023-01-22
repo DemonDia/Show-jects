@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Card, Grid, TextField, Box } from "@mui/material";
 import ProjectContainer from "../../Components/Projects/ProjectContainer";
-
-function ProjectListContainer({ projects, isOwner, userId }) {
+function ProjectListContainer({ projects, isOwner, userId,handleLike }) {
     const [search, setSearch] = useState("");
+
+    // like/unlike
+
+    // comment
     return (
         <>
             {/* search as you type & filter*/}
@@ -40,6 +43,7 @@ function ProjectListContainer({ projects, isOwner, userId }) {
                                         project={project}
                                         isOwner={isOwner}
                                         userId={userId}
+                                        handleLike = {handleLike}
                                     />
                                 );
                             })}

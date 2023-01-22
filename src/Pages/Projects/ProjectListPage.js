@@ -18,28 +18,46 @@ function ProjectListPage() {
 
     const loadPage = async () => {
         setLoading(true);
-        await defaultAuthCheck(navigate)
-            .then(async (res) => {
-                const { name, id } = getCurrentUser(res);
-                dispatch(userActions.login({ name, id }));
-                await getAllProjects();
-                setLoading(false);
-            })
-            .catch(() => {
-                dispatch(userActions.logout());
-                setLoading(false);
-            });
+        await getAllProjects();
+        setLoading(false)
+        // await defaultAuthCheck(navigate)
+        //     .then(async (res) => {
+        //         const { name, id } = getCurrentUser(res);
+        //         dispatch(userActions.login({ name, id }));
+        //         await getAllProjects();
+        //         setLoading(false);
+        //     })
+        //     .catch(() => {
+        //         dispatch(userActions.logout());
+        //         setLoading(false);
+        //     });
         // await getAllProjects().then(() => {
         //     setLoading(false);
         // });
     };
 
     const getAllProjects = async () => {
-        setLoading(true);
         axios
             .get(`${process.env.REACT_APP_API_LINK}/projects/`)
             .then((result) => {
                 setAllProjects(result.data.data);
+            })
+            .catch((err) => {});
+    };
+
+    // likes
+    const handleLike = async (projectId, userId) => {
+        const currentToken = localStorage.getItem("userToken");
+        axios
+            .put(
+                `${process.env.REACT_APP_API_LINK}/projects/like/${projectId}`,
+                {
+                    userId,
+                },
+                { headers: { Authorization: `Bearer ${currentToken}` } }
+            )
+            .then(async (result) => {
+                await getAllProjects();
             })
             .catch((err) => {});
     };
@@ -58,7 +76,8 @@ function ProjectListPage() {
                     <ProjectListContainer
                         projects={allProjects}
                         isOwner={false}
-                        userId = {id}
+                        userId={id}
+                        handleLike={handleLike}
                     />
                 </>
             )}

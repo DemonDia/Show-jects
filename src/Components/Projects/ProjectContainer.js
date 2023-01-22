@@ -13,7 +13,7 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 //     ChatBubbleOutlineIcon,
 // } from '@mui/icons-material';
 
-function ProjectContainer({ project, isOwner, userId }) {
+function ProjectContainer({ project, isOwner, userId, handleLike }) {
     const {
         _id,
         projectName,
@@ -71,7 +71,6 @@ function ProjectContainer({ project, isOwner, userId }) {
                     </>
                 ) : (
                     <>
-                        {" "}
                         <Grid container spacing={2}>
                             <Grid
                                 item
@@ -83,8 +82,33 @@ function ProjectContainer({ project, isOwner, userId }) {
                                     justifyContent: "center",
                                 }}
                             >
-                                <Button variant={"filled"}>
-                                    {likes.length} <FavoriteBorderIcon />
+                                <Button
+                                    variant={"filled"}
+                                    onClick={() => {
+                                        handleLike(_id, userId);
+                                    }}
+                                >
+                                    <Link
+                                        style={{
+                                            color: "black",
+                                            textDecoration: "none",
+                                        }}
+                                    >
+                                        {likes.length}
+                                        {likes.includes(userId) ? (
+                                            <>
+                                                <FavoriteIcon
+                                                    sx={{
+                                                        color: "red",
+                                                    }}
+                                                />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <FavoriteBorderIcon />
+                                            </>
+                                        )}
+                                    </Link>
                                 </Button>
                             </Grid>
                             <Grid
@@ -98,7 +122,16 @@ function ProjectContainer({ project, isOwner, userId }) {
                                 }}
                             >
                                 <Button variant={"filled"}>
-                                    {comments.length} <ChatBubbleOutlineIcon />
+                                    <Link
+                                        to={`/projects/${_id}`}
+                                        style={{
+                                            color: "black",
+                                            textDecoration: "none",
+                                        }}
+                                    >
+                                        {comments.length}{" "}
+                                        <ChatBubbleOutlineIcon />
+                                    </Link>
                                 </Button>
                             </Grid>
                         </Grid>
