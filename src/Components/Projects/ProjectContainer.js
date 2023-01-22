@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import CreateIcon from "@mui/icons-material/Create";
 
 // import {
 //     FavoriteBorderIcon,
@@ -13,7 +15,13 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 //     ChatBubbleOutlineIcon,
 // } from '@mui/icons-material';
 
-function ProjectContainer({ project, isOwner, userId, handleLike }) {
+function ProjectContainer({
+    project,
+    isOwner,
+    userId,
+    handleLike,
+    handleDelete,
+}) {
     const {
         _id,
         projectName,
@@ -140,6 +148,7 @@ function ProjectContainer({ project, isOwner, userId, handleLike }) {
 
                 {isOwner ? (
                     <>
+                        <hr />
                         <Grid container spacing={2}>
                             <Grid item xs={6}>
                                 <Button
@@ -161,7 +170,7 @@ function ProjectContainer({ project, isOwner, userId, handleLike }) {
                                             textDecoration: "none",
                                         }}
                                     >
-                                        Edit
+                                        <CreateIcon />
                                     </Link>
                                 </Button>
                             </Grid>
@@ -178,7 +187,7 @@ function ProjectContainer({ project, isOwner, userId, handleLike }) {
                                         },
                                     }}
                                 >
-                                    Delete
+                                    <DeleteOutlineIcon />
                                 </Button>
                             </Grid>
                         </Grid>

@@ -84,15 +84,15 @@ function IndividualProjectPage() {
             .put(
                 `${process.env.REACT_APP_API_LINK}/projects/comment/add/`,
                 {
-                    userId:id,
+                    userId: id,
                     userName: username,
                     projectId,
-                    comment
+                    comment,
                 },
                 { headers: { Authorization: `Bearer ${currentToken}` } }
             )
             .then(async (result) => {
-                setComment("")
+                setComment("");
                 await getCurrentProject();
             })
             .catch((err) => {});
@@ -120,9 +120,11 @@ function IndividualProjectPage() {
                                     },
                                 }}
                             >
-                                <br/>
-                                <Link to="/projects" sx={{ textAlign: "left",
-                            margin:"10px" }}>
+                                <br />
+                                <Link
+                                    to="/projects"
+                                    sx={{ textAlign: "left", margin: "10px" }}
+                                >
                                     Back
                                 </Link>
                                 <Paper variant="outlined">
@@ -317,8 +319,15 @@ function IndividualProjectPage() {
                                                                     "left"
                                                                 }
                                                             >
-                                                                <b>{commenterName}</b>{" "}
-                                                                at {new Date(commentDate).toLocaleString()}
+                                                                <b>
+                                                                    {
+                                                                        commenterName
+                                                                    }
+                                                                </b>{" "}
+                                                                at{" "}
+                                                                {new Date(
+                                                                    commentDate
+                                                                ).toLocaleString()}
                                                             </Typography>
                                                             <Typography
                                                                 variant={
@@ -336,7 +345,19 @@ function IndividualProjectPage() {
                                             )}
                                         </>
                                     ) : (
-                                        <></>
+                                        <>
+                                            {" "}
+                                            <Typography
+                                                variant={"h6"}
+                                                textAlign={"left"}
+                                                sx={{
+                                                    margin: "10px auto",
+                                                    padding: "10px",
+                                                }}
+                                            >
+                                                Be the first to comment.
+                                            </Typography>
+                                        </>
                                     )}
                                 </Paper>
                             </Card>

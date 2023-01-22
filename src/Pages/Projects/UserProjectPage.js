@@ -44,6 +44,14 @@ function UserProjectPage() {
             .catch((err) => {});
     };
 
+    const handleDelete = async (projectId)=>{
+        var confirmDelete = alert("Are you sure? This is irrecersible! Type 'yes' to confirm.")
+        if(confirmDelete == "yes"){
+            
+        }
+
+    }
+
     useEffect(() => {
         loadPage();
     }, []);

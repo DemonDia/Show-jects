@@ -36,19 +36,24 @@ function ProjectForm({ submitFunction, title, userId, projectObject }) {
     // projectLinks [Array]:
     // LinkLabel, LinkURL
 
-        // ================= load current proj if have =================
-
-    const loadCurrentProject = () =>{
-        if(projectObject){
-            const {projectName,projectDescription,status,projectPicture,projectLinks} = projectObject
-            setProjectName(projectName)
-            setProjectDescription(projectDescription)
-            setStatus(status)
-            setProjectLinks(projectLinks)
-            setProjectPicture(projectPicture)
-            setImagePreviewURL(projectPicture)
+    // ================= load current proj if have =================
+    const loadCurrentProject = () => {
+        if (projectObject) {
+            const {
+                projectName,
+                projectDescription,
+                status,
+                projectPicture,
+                projectLinks,
+            } = projectObject;
+            setProjectName(projectName);
+            setProjectDescription(projectDescription);
+            setStatus(status);
+            setProjectLinks(projectLinks);
+            setProjectPicture(projectPicture);
+            setImagePreviewURL(projectPicture);
         }
-    }
+    };
 
     // =================when user clicks submit/cancel =================
     const handleSubmit = async () => {
@@ -156,9 +161,9 @@ function ProjectForm({ submitFunction, title, userId, projectObject }) {
         setProjectLinks([...updatedProjectLinks]);
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         loadCurrentProject();
-    },[])
+    }, []);
 
     return (
         <div>

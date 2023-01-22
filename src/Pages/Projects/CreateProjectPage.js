@@ -40,7 +40,7 @@ function CreateProjectPage() {
             )
             .then(() => {
                 alert("Project added");
-                navigate("/projects")
+                navigate("/user/projects")
             })
             .catch((err) => {
                 alert("Failed to add");
