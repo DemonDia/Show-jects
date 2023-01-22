@@ -196,7 +196,30 @@ function ProjectContainer({
                         </Grid>
                     </>
                 ) : (
-                    <></>
+                    <>
+                        <Link
+                            style={{
+                                textDecoration: "none",
+                                color: "white",
+                            }}
+                            to={`/projects/${_id}`}
+                        >
+                            <Button
+                                variant={"filled"}
+                                sx={{
+                                    background: "#309F6E",
+                                    width: "100%",
+                                    margin: "10px auto",
+                                    padding: "10px",
+                                    "&:hover": {
+                                        background: "green",
+                                    },
+                                }}
+                            >
+                                See More
+                            </Button>
+                        </Link>
+                    </>
                 )}
             </Card>
         </Grid>
