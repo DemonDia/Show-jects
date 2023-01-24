@@ -8,25 +8,20 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../Store";
 
-import {
-    Card,
-    Grid,
-    Paper,
-    Typography,
-    Button,
-    Box,
-    TextField,
-} from "@mui/material";
+import { Card, Grid, Typography, Button, Box, TextField } from "@mui/material";
 import Loader from "../../Components/General/Loader";
+import ShareDialog from "../../Components/Projects/ShareDialog";
 
 // icons
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import ShareIcon from "@mui/icons-material/Share";
 
 function IndividualProjectPage() {
     const [loading, setLoading] = useState(false);
     const [currentProject, setCurrentProject] = useState(null);
+    const [openDialog, setOpenDialog] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -207,7 +202,7 @@ function IndividualProjectPage() {
                                     <Grid container spacing={2}>
                                         <Grid
                                             item
-                                            xs={6}
+                                            xs={4}
                                             sx={{
                                                 margin: "auto",
                                                 display: "flex",
@@ -257,7 +252,7 @@ function IndividualProjectPage() {
                                         </Grid>
                                         <Grid
                                             item
-                                            xs={6}
+                                            xs={4}
                                             sx={{
                                                 margin: "auto",
                                                 display: "flex",
@@ -271,13 +266,38 @@ function IndividualProjectPage() {
                                                     width: "100%",
                                                 }}
                                             >
-                                                <a href= {"#comments"} style={{color:"black",textDecoration:"none"}}>
+                                                <a
+                                                    href={"#comments"}
+                                                    style={{
+                                                        color: "black",
+                                                        textDecoration: "none",
+                                                    }}
+                                                >
                                                     {
                                                         currentProject.comments
                                                             .length
                                                     }
                                                     <ChatBubbleOutlineIcon />
                                                 </a>
+                                            </Button>
+                                        </Grid>
+                                        <Grid
+                                            item
+                                            xs={4}
+                                            sx={{
+                                                margin: "auto",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                            }}
+                                        >
+                                            <Button
+                                                variant={"filled"}
+                                                onClick={() => {
+                                                    setOpenDialog(true);
+                                                }}
+                                            >
+                                                <ShareIcon />
                                             </Button>
                                         </Grid>
                                     </Grid>
@@ -400,6 +420,12 @@ function IndividualProjectPage() {
                                     </Box>
                                 </Box>
                             </Card>
+                            <ShareDialog
+                                handleClose={() => setOpenDialog(false)}
+                                isOpen={openDialog}
+                                projectId={projectId}
+                                projectName={currentProject.projectName}
+                            />
                         </>
                     ) : (
                         <></>
