@@ -29,7 +29,9 @@ function ProjectContainer({
         projectPicture,
         likes,
         comments,
+        userId:ownerId
     } = project;
+    
     useEffect(() => {}, []);
     return (
         <Grid item xs={6} sm={4} md={3} lg={2}>
@@ -48,7 +50,7 @@ function ProjectContainer({
                     {projectDescription}
                 </Typography>
                 <hr />
-                {isOwner ? (
+                {ownerId == userId || !userId ? (
                     <>
                         <Grid container spacing={2}>
                             <Grid

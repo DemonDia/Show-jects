@@ -34,11 +34,11 @@ function IndividualProjectPage() {
 
     const loadPage = async () => {
         setLoading(true);
+        await getCurrentProject(projectId);
         await publicAuthCheck(navigate)
             .then(async (res) => {
                 const { name, id } = getCurrentUser(res);
                 dispatch(userActions.login({ name, id }));
-                await getCurrentProject(projectId);
                 setLoading(false);
             })
             .catch(() => {
@@ -176,7 +176,6 @@ function IndividualProjectPage() {
                                             (projectLink) => {
                                                 const { linkName, url } =
                                                     projectLink;
-                                                    console.log(url)
                                                 return (
                                                     <li>
                                                         <a

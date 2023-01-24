@@ -18,18 +18,18 @@ function ProjectListPage() {
 
     const loadPage = async () => {
         setLoading(true);
-
+        await getAllProjects();
         await publicAuthCheck(navigate)
             .then(async (res) => {
                 const { name, id } = getCurrentUser(res);
                 dispatch(userActions.login({ name, id }));
-                await getAllProjects();
                 setLoading(false);
             })
             .catch(() => {
                 dispatch(userActions.logout());
                 setLoading(false);
             });
+        
     };
 
     const getAllProjects = async () => {
