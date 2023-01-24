@@ -50,7 +50,7 @@ function ProjectContainer({
                     {projectDescription}
                 </Typography>
                 <hr />
-                {ownerId == userId || !userId ? (
+                {!userId ? (
                     <>
                         <Grid container spacing={2}>
                             <Grid
