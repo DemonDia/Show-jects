@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { Card, Grid, TextField, Box } from "@mui/material";
 import ProjectContainer from "../../Components/Projects/ProjectContainer";
-function ProjectListContainer({ projects, isOwner, userId,handleLike,handleDelete }) {
+function ProjectListContainer({
+    projects,
+    isOwner,
+    userId,
+    handleLike,
+    handleDelete,
+}) {
     const [search, setSearch] = useState("");
     return (
         <>
@@ -33,14 +39,15 @@ function ProjectListContainer({ projects, isOwner, userId,handleLike,handleDelet
                 <Grid container>
                     {projects != null ? (
                         <>
-                            {projects.map((project) => {
+                            {projects.map((project, index) => {
                                 return (
                                     <ProjectContainer
+                                        key={index}
                                         project={project}
                                         isOwner={isOwner}
                                         userId={userId}
-                                        handleLike = {handleLike}
-                                        handleDelete = {handleDelete}
+                                        handleLike={handleLike}
+                                        handleDelete={handleDelete}
                                     />
                                 );
                             })}

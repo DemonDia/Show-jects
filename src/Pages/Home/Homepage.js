@@ -87,9 +87,9 @@ function Homepage() {
                             padding: "10px;",
                         }}
                     >
-                        {menuOptions.map((option) => {
+                        {menuOptions.map((option, index) => {
                             return (
-                                <Grid item xs={12} sm={4} lg={3}>
+                                <Grid item xs={12} sm={4} lg={3} key={index}>
                                     <OptionItem option={option} />
                                 </Grid>
                             );

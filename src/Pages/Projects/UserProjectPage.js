@@ -71,7 +71,6 @@ function UserProjectPage() {
 
     return (
         <div>
-            <h1>User project page</h1>
             {loading ? (
                 <Loader />
             ) : (

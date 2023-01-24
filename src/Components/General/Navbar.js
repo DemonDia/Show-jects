@@ -74,10 +74,10 @@ function Navbar(props) {
             <List>
                 {username ? (
                     <>
-                        {loggedInPages.map((item) => {
+                        {loggedInPages.map((item, index) => {
                             const { label, to } = item;
                             return (
-                                <ListItem disablePadding>
+                                <ListItem disablePadding key={index}>
                                     <ListItemButton
                                         sx={{ textAlign: "center" }}
                                     >
@@ -97,11 +97,11 @@ function Navbar(props) {
                     </>
                 ) : (
                     <>
-                        {notLoggedInPages.map((item) => {
+                        {notLoggedInPages.map((item, index) => {
                             const { label, to } = item;
 
                             return (
-                                <ListItem disablePadding>
+                                <ListItem disablePadding key={index}>
                                     <ListItemButton
                                         sx={{ textAlign: "center" }}
                                     >
@@ -156,10 +156,13 @@ function Navbar(props) {
                     <Box sx={{ display: { xs: "none", sm: "block" } }}>
                         {username ? (
                             <>
-                                {loggedInPages.map((item) => {
+                                {loggedInPages.map((item, index) => {
                                     const { label, to } = item;
                                     return (
-                                        <Button sx={{ color: "black" }}>
+                                        <Button
+                                            sx={{ color: "black" }}
+                                            key={index}
+                                        >
                                             <Link
                                                 to={to}
                                                 sx={{
@@ -175,10 +178,13 @@ function Navbar(props) {
                             </>
                         ) : (
                             <>
-                                {notLoggedInPages.map((item) => {
+                                {notLoggedInPages.map((item, index) => {
                                     const { label, to } = item;
                                     return (
-                                        <Button sx={{ color: "black" }}>
+                                        <Button
+                                            sx={{ color: "black" }}
+                                            key={index}
+                                        >
                                             <Link
                                                 to={to}
                                                 sx={{

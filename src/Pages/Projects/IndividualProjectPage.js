@@ -107,7 +107,7 @@ function IndividualProjectPage() {
     return (
         <div>
             {loading ? (
-                <Loader/>
+                <Loader />
             ) : (
                 <>
                     {currentProject ? (
@@ -175,11 +175,11 @@ function IndividualProjectPage() {
                                     </Typography>
                                     <ul>
                                         {currentProject.projectLinks.map(
-                                            (projectLink) => {
+                                            (projectLink, index) => {
                                                 const { linkName, url } =
                                                     projectLink;
                                                 return (
-                                                    <li>
+                                                    <li key={index}>
                                                         <a
                                                             href={url}
                                                             target={"_blank"}

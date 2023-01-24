@@ -288,7 +288,11 @@ function ProjectForm({ submitFunction, title, userId, projectObject }) {
                     label="Status"
                 >
                     {statuses.map((value, index) => {
-                        return <MenuItem value={index}>{value}</MenuItem>;
+                        return (
+                            <MenuItem value={index} key={index}>
+                                {value}
+                            </MenuItem>
+                        );
                     })}
                 </Select>
                 {/* </FormControl> */}
