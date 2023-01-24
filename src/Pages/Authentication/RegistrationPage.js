@@ -22,6 +22,7 @@ function RegistrationPage() {
             .then((res) => {
                 const { message } = res.data;
                 alert(message);
+                navigate("/login")
             })
             .catch((err) => {
                 console.log(err);
