@@ -33,10 +33,10 @@ const loggedInPages = [
         label: "Manage Projects",
         to: "/user/projects",
     },
-    {
-        label: "View Profile",
-        to: "/user/profile",
-    },
+    // {
+    //     label: "View Profile",
+    //     to: "/user/profile",
+    // },
     {
         label: "Logout",
         to: "/logout",

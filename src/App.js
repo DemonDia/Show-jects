@@ -10,8 +10,6 @@ import { useSelector } from "react-redux";
 import Navbar from "./Components/General/Navbar";
 import { Toolbar } from "@mui/material";
 
-import Footer from "./Components/General/Footer";
-
 // ====================================page imports====================================
 // ======================authenticaion======================
 import RegistrationPage from "./Pages/Authentication/RegistrationPage";
@@ -34,6 +32,7 @@ import UserProjectPage from "./Pages/Projects/UserProjectPage";
 
 // ======================redirect======================
 import RedirectPage from "./Pages/Redirect/RedirectPage";
+import ErrorPage from "./Pages/Redirect/ErrorPage";
 
 function App() {
     const username = useSelector((state) => state.username);
@@ -91,6 +90,7 @@ function App() {
                     />
                     {/* ======================redirect====================== */}
                     <Route exact path="/" element={<RedirectPage />} />
+                    <Route exact path="*" element={<ErrorPage />} />
                 </Routes>
             </div>
             {/* <Footer /> */}
