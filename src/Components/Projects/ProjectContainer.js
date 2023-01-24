@@ -9,12 +9,6 @@ import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CreateIcon from "@mui/icons-material/Create";
 
-// import {
-//     FavoriteBorderIcon,
-//     FavoriteIcon,
-//     ChatBubbleOutlineIcon,
-// } from '@mui/icons-material';
-
 function ProjectContainer({
     project,
     isOwner,
@@ -40,7 +34,7 @@ function ProjectContainer({
                     className={"projectImageContainer"}
                     src={projectPicture}
                     style={{
-                        maxWidth: "100%",
+                        width: "100%",
                     }}
                 />
                 <Typography variant={"h5"} textAlign={"left"}>
