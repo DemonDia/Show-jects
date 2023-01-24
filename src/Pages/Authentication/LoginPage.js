@@ -6,6 +6,7 @@ import {
     loginPageAuthCheck,
     getCurrentUser,
 } from "../../HelperFunctions/authCheck";
+import Loader from "../../Components/General/Loader";
 
 import { useDispatch } from "react-redux";
 import { userActions } from "../../Store";
@@ -46,7 +47,7 @@ function LoginPage() {
     }, []);
     return (
         <div>
-            <UserForm mode="login" submitFunction={login} />
+            {loading?<><Loader/></>:<UserForm mode="login" submitFunction={login} />}
         </div>
     );
 }

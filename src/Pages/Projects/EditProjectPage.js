@@ -9,6 +9,7 @@ import { userActions } from "../../Store";
 import axios from "axios";
 import ProjectForm from "../../Components/Projects/ProjectForm";
 import { useParams } from "react-router-dom";
+import Loader from "../../Components/General/Loader";
 
 function EditProjectPage() {
     const [loading, setLoading] = useState(false);
@@ -65,7 +66,7 @@ function EditProjectPage() {
     return (
         <div>
             {loading ? (
-                <></>
+                <Loader/>
             ) : (
                 <>
                     {" "}

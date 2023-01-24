@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../Store";
 import axios from "axios";
 import ProjectListContainer from "../../Components/Projects/ProjectListContainer";
+import Loader from "../../Components/General/Loader";
 
 function ProjectListPage() {
     const [loading, setLoading] = useState(false);
@@ -66,7 +67,7 @@ function ProjectListPage() {
         <div>
             <h1>Project List Page</h1>
             {loading ? (
-                <>Loading...</>
+                <Loader/>
             ) : (
                 <>
                     <ProjectListContainer

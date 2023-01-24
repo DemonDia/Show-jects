@@ -9,6 +9,7 @@ import {
 
 import { useDispatch } from "react-redux";
 import { userActions } from "../../Store";
+import Loader from "../../Components/General/Loader";
 
 function RegistrationPage() {
     const [loading, setLoading] = useState(false);
@@ -42,11 +43,15 @@ function RegistrationPage() {
 
     useEffect(() => {
         loadPage();
-    });
+    },[]);
 
     return (
         <div>
-            <UserForm mode="register" submitFunction={register} />
+            {loading ? (
+                <Loader />
+            ) : (
+                <UserForm mode="register" submitFunction={register} />
+            )}
         </div>
     );
 }

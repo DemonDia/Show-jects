@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../Store";
 import axios from "axios";
 import ProjectListContainer from "../../Components/Projects/ProjectListContainer";
+import Loader from "../../Components/General/Loader";
 
 function UserProjectPage() {
     const currentToken = localStorage.getItem("userToken");
@@ -40,7 +41,7 @@ function UserProjectPage() {
             })
             .then((result) => {
                 setUserProjects(result.data.data);
-                setLoading(false)
+                setLoading(false);
             })
             .catch((err) => {});
     };
@@ -72,7 +73,7 @@ function UserProjectPage() {
         <div>
             <h1>User project page</h1>
             {loading ? (
-                <>Loading...</>
+                <Loader />
             ) : (
                 <>
                     <ProjectListContainer

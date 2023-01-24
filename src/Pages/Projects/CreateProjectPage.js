@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../Store";
 import axios from "axios";
 import ProjectForm from "../../Components/Projects/ProjectForm";
+import Loader from "../../Components/General/Loader";
 
 function CreateProjectPage() {
     const [loading, setLoading] = useState(false);
@@ -54,7 +55,7 @@ function CreateProjectPage() {
     return (
         <div>
             {loading ? (
-                <></>
+                <Loader/>
             ) : (
                 <ProjectForm
                     submitFunction={createProject}

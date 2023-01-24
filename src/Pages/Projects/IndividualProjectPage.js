@@ -17,6 +17,8 @@ import {
     Box,
     TextField,
 } from "@mui/material";
+import Loader from "../../Components/General/Loader";
+
 // icons
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -105,7 +107,7 @@ function IndividualProjectPage() {
     return (
         <div>
             {loading ? (
-                <></>
+                <Loader/>
             ) : (
                 <>
                     {currentProject ? (
