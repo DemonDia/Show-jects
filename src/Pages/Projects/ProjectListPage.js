@@ -30,11 +30,10 @@ function ProjectListPage() {
                 dispatch(userActions.logout());
                 setLoading(false);
             });
-        
     };
 
     const getAllProjects = async () => {
-        axios
+        await axios
             .get(`${process.env.REACT_APP_API_LINK}/projects/`)
             .then((result) => {
                 setAllProjects(result.data.data);
@@ -45,7 +44,7 @@ function ProjectListPage() {
     // likes
     const handleLike = async (projectId, userId) => {
         const currentToken = localStorage.getItem("userToken");
-        axios
+        await axios
             .put(
                 `${process.env.REACT_APP_API_LINK}/projects/like/${projectId}`,
                 {
@@ -66,7 +65,7 @@ function ProjectListPage() {
     return (
         <div>
             {loading ? (
-                <Loader/>
+                <Loader />
             ) : (
                 <>
                     <ProjectListContainer

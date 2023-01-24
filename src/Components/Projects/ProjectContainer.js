@@ -31,7 +31,7 @@ function ProjectContainer({
         comments,
         userId:ownerId
     } = project;
-    
+
     useEffect(() => {}, []);
     return (
         <Grid item xs={6} sm={4} md={3} lg={2}>
@@ -94,8 +94,8 @@ function ProjectContainer({
                             >
                                 <Button
                                     variant={"filled"}
-                                    onClick={() => {
-                                        handleLike(_id, userId);
+                                    onClick={async () => {
+                                        await handleLike(_id, userId);
                                     }}
                                 >
                                     <Link

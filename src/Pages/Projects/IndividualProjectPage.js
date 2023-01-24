@@ -61,7 +61,7 @@ function IndividualProjectPage() {
     // ==================likes==================
     const handleLike = async (projectId, userId) => {
         if (userId) {
-            axios
+            await axios
                 .put(
                     `${process.env.REACT_APP_API_LINK}/projects/like/${projectId}`,
                     {
@@ -82,7 +82,7 @@ function IndividualProjectPage() {
     const [comment, setComment] = useState("");
     const username = useSelector((state) => state.username);
     const handleComment = async () => {
-        axios
+        await axios
             .put(
                 `${process.env.REACT_APP_API_LINK}/projects/comment/add/`,
                 {
@@ -123,23 +123,35 @@ function IndividualProjectPage() {
                                 }}
                             >
                                 <br />
-                                <Link
-                                    to="/projects"
-                                    sx={{ textAlign: "left", margin: "10px" }}
+                                <Typography
+                                    textAlign={"left"}
+                                    sx={{
+                                        marginLeft: "10px",
+                                    }}
                                 >
-                                    Back
-                                </Link>
-                                <Paper variant="outlined">
+                                    <Link
+                                        to="/projects"
+                                        sx={{
+                                            textAlign: "left",
+                                            margin: "10px",
+                                            color: "black",
+                                            textDecoration: "none",
+                                        }}
+                                    >
+                                        Back
+                                    </Link>
+                                </Typography>
+                                <Box>
                                     <img
                                         src={currentProject.projectPicture}
                                         alt={"Add image"}
                                         style={{
-                                            width: "50%",
+                                            width: "100%",
                                             margin: "auto",
                                         }}
                                     />
-                                </Paper>
-                                <Paper variant="outlined">
+                                </Box>
+                                <Box>
                                     <Typography
                                         variant="h6"
                                         textAlign={"left"}
@@ -205,8 +217,11 @@ function IndividualProjectPage() {
                                         >
                                             <Button
                                                 variant={"filled"}
-                                                onClick={() => {
-                                                    handleLike(projectId, id);
+                                                onClick={async () => {
+                                                    await handleLike(
+                                                        projectId,
+                                                        id
+                                                    );
                                                 }}
                                                 sx={{
                                                     width: "100%",
@@ -250,8 +265,20 @@ function IndividualProjectPage() {
                                                 justifyContent: "center",
                                             }}
                                         >
-                                            {currentProject.comments.length}
-                                            <ChatBubbleOutlineIcon />
+                                            <Button
+                                                variant={"filled"}
+                                                sx={{
+                                                    width: "100%",
+                                                }}
+                                            >
+                                                <a href= {"#comments"} style={{color:"black",textDecoration:"none"}}>
+                                                    {
+                                                        currentProject.comments
+                                                            .length
+                                                    }
+                                                    <ChatBubbleOutlineIcon />
+                                                </a>
+                                            </Button>
                                         </Grid>
                                     </Grid>
                                     <hr />
@@ -279,8 +306,8 @@ function IndividualProjectPage() {
                                                     </Grid>
                                                     <Grid item xs={2}>
                                                         <Button
-                                                            onClick={() => {
-                                                                handleComment();
+                                                            onClick={async () => {
+                                                                await handleComment();
                                                             }}
                                                             disabled={
                                                                 comment.length ==
@@ -297,71 +324,81 @@ function IndividualProjectPage() {
                                     ) : (
                                         <></>
                                     )}
-                                    {currentProject.comments.length > 0 ? (
-                                        <>
-                                            {currentProject.comments.map(
-                                                (comment) => {
-                                                    const {
-                                                        commenterId,
-                                                        commenterName,
-                                                        commentContent,
-                                                        commentDate,
-                                                    } = comment;
-                                                    return (
-                                                        <Box
-                                                            style={{
-                                                                margin: "10px auto",
-                                                                padding: "10px",
-                                                                width: "100%",
-                                                            }}
-                                                        >
-                                                            <Typography
-                                                                variant={"h6"}
-                                                                textAlign={
-                                                                    "left"
-                                                                }
-                                                            >
-                                                                <b>
-                                                                    {
-                                                                        commenterName
-                                                                    }
-                                                                </b>{" "}
-                                                                at{" "}
-                                                                {new Date(
-                                                                    commentDate
-                                                                ).toLocaleString()}
-                                                            </Typography>
-                                                            <Typography
-                                                                variant={
-                                                                    "subtitle2"
-                                                                }
-                                                                textAlign={
-                                                                    "left"
-                                                                }
-                                                            >
-                                                                {commentContent}
-                                                            </Typography>
-                                                        </Box>
-                                                    );
-                                                }
-                                            )}
-                                        </>
-                                    ) : (
-                                        <>
-                                            {" "}
-                                            <Typography
-                                                variant={"h6"}
-                                                textAlign={"left"}
+                                    <Box id={"comments"}>
+                                        {currentProject.comments.length > 0 ? (
+                                            <Box
                                                 sx={{
-                                                    margin: "10px auto",
                                                     padding: "10px",
                                                 }}
                                             >
-                                                Be the first to comment.
-                                            </Typography>
-                                        </>
-                                    )}
-                                </Paper>
+                                                {currentProject.comments.map(
+                                                    (comment) => {
+                                                        const {
+                                                            commenterId,
+                                                            commenterName,
+                                                            commentContent,
+                                                            commentDate,
+                                                        } = comment;
+                                                        return (
+                                                            <Card
+                                                                style={{
+                                                                    margin: "10px auto",
+                                                                    padding:
+                                                                        "10px",
+                                                                }}
+                                                            >
+                                                                <Typography
+                                                                    variant={
+                                                                        "h6"
+                                                                    }
+                                                                    textAlign={
+                                                                        "left"
+                                                                    }
+                                                                >
+                                                                    <b>
+                                                                        {
+                                                                            commenterName
+                                                                        }
+                                                                    </b>{" "}
+                                                                    at{" "}
+                                                                    {new Date(
+                                                                        commentDate
+                                                                    ).toLocaleString()}
+                                                                </Typography>
+                                                                <Typography
+                                                                    variant={
+                                                                        "subtitle1"
+                                                                    }
+                                                                    textAlign={
+                                                                        "left"
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        commentContent
+                                                                    }
+                                                                </Typography>
+                                                            </Card>
+                                                        );
+                                                    }
+                                                )}
+                                            </Box>
+                                        ) : (
+                                            <>
+                                                {" "}
+                                                <Typography
+                                                    variant={"h6"}
+                                                    textAlign={"left"}
+                                                    sx={{
+                                                        margin: "10px auto",
+                                                        padding: "10px",
+                                                    }}
+                                                >
+                                                    Be the first to comment.
+                                                </Typography>
+                                            </>
+                                        )}
+                                    </Box>
+                                </Box>
                             </Card>
                         </>
                     ) : (
