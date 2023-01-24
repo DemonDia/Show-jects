@@ -16,6 +16,7 @@ import Footer from "./Components/General/Footer";
 // ======================authenticaion======================
 import RegistrationPage from "./Pages/Authentication/RegistrationPage";
 import LoginPage from "./Pages/Authentication/LoginPage";
+import LogoutPage from "./Pages/Authentication/LogoutPage";
 
 // ======================homepages======================
 import Homepage from "./Pages/Home/Homepage";
@@ -49,6 +50,7 @@ function App() {
                         path="/register"
                         element={<RegistrationPage />}
                     />
+                    <Route exact path="/logout" element={<LogoutPage />} />
 
                     {/* ======================home====================== */}
                     <Route exact path="/home" element={<Homepage />} />

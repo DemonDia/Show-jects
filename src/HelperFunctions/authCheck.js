@@ -27,11 +27,11 @@ const loginPageAuthCheck = async (navigate) => {
 };
 
 const defaultAuthCheck = async (navigate) => {
-    return await checkAuthStatus("", "/login", navigate);
+    return await checkAuthStatus("", "/landing", navigate);
 };
 
 const redirectAuthCheck = async (navigate) => {
-    return await checkAuthStatus("/home", "/login", navigate);
+    return await checkAuthStatus("/home", "/landing", navigate);
 };
 
 const getCurrentUser = (result) => {
