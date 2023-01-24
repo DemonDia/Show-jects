@@ -1,7 +1,8 @@
 import React from "react";
 import { Card, Typography, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
-function Banner(props) {
+function Banner() {
     return (
         <Card
             variant="outlined"
@@ -31,19 +32,24 @@ function Banner(props) {
                 Have a brilliant idea but don’t know where to showcase them or
                 get support? You can join us today!
             </Typography>
-            <Button
-                variant="contained"
-                sx={{
-                    float: "left",
-                    left: 0,
-                    background: "#41B883",
-                    width: "50%",
-                    margin: "10px",
-                    padding: "10px",
-                }}
+            <Link
+                sx={{ color: "white", textDecoration: "none" }}
+                to={"/register"}
             >
-                Join us!
-            </Button>
+                <Button
+                    variant="contained"
+                    sx={{
+                        float: "left",
+                        left: 0,
+                        background: "#41B883",
+                        width: "50%",
+                        margin: "10px",
+                        padding: "10px",
+                    }}
+                >
+                    Join us!
+                </Button>
+            </Link>
 
             <Typography
                 variant="h4"
@@ -54,19 +60,24 @@ function Banner(props) {
             >
                 View some awesome projects if you need inspirations and ideas!
             </Typography>
-            <Button
-                variant="contained"
-                sx={{
-                    float: "left",
-                    left: 0,
-                    background: "#41B883",
-                    width: "50%",
-                    margin: "10px",
-                    padding: "10px",
-                }}
+            <Link
+                sx={{ color: "white", textDecoration: "none" }}
+                to="/projects"
             >
-                View Projects
-            </Button>
+                <Button
+                    variant="contained"
+                    sx={{
+                        float: "left",
+                        left: 0,
+                        background: "#41B883",
+                        width: "50%",
+                        margin: "10px",
+                        padding: "10px",
+                    }}
+                >
+                    View Project
+                </Button>
+            </Link>
         </Card>
     );
 }

@@ -34,7 +34,7 @@ function ProjectContainer({
                     className={"projectImageContainer"}
                     src={projectPicture}
                     style={{
-                        width: "100%",
+                        maxWidth: "100%",
                     }}
                 />
                 <Typography variant={"h5"} textAlign={"left"}>

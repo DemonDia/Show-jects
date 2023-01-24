@@ -78,19 +78,19 @@ function Navbar(props) {
                             const { label, to } = item;
                             return (
                                 <ListItem disablePadding key={index}>
-                                    <ListItemButton
-                                        sx={{ textAlign: "center" }}
+                                    <Link
+                                        to={to}
+                                        sx={{
+                                            textDecoration: "none",
+                                            color: "black",
+                                        }}
                                     >
-                                        <Link
-                                            to={to}
-                                            sx={{
-                                                textDecoration: "none",
-                                                color: "black",
-                                            }}
+                                        <ListItemButton
+                                            sx={{ textAlign: "center" }}
                                         >
                                             <ListItemText primary={label} />
-                                        </Link>
-                                    </ListItemButton>
+                                        </ListItemButton>
+                                    </Link>
                                 </ListItem>
                             );
                         })}
@@ -102,19 +102,19 @@ function Navbar(props) {
 
                             return (
                                 <ListItem disablePadding key={index}>
-                                    <ListItemButton
-                                        sx={{ textAlign: "center" }}
+                                    <Link
+                                        to={to}
+                                        sx={{
+                                            textDecoration: "none",
+                                            color: "black",
+                                        }}
                                     >
-                                        <Link
-                                            to={to}
-                                            sx={{
-                                                textDecoration: "none",
-                                                color: "black",
-                                            }}
+                                        <ListItemButton
+                                            sx={{ textAlign: "center" }}
                                         >
                                             <ListItemText primary={label} />
-                                        </Link>
-                                    </ListItemButton>
+                                        </ListItemButton>
+                                    </Link>
                                 </ListItem>
                             );
                         })}
@@ -159,20 +159,20 @@ function Navbar(props) {
                                 {loggedInPages.map((item, index) => {
                                     const { label, to } = item;
                                     return (
-                                        <Button
-                                            sx={{ color: "black" }}
-                                            key={index}
+                                        <Link
+                                            to={to}
+                                            sx={{
+                                                textDecoration: "none",
+                                                color: "black",
+                                            }}
                                         >
-                                            <Link
-                                                to={to}
-                                                sx={{
-                                                    textDecoration: "none",
-                                                    color: "black",
-                                                }}
+                                            <Button
+                                                sx={{ color: "black" }}
+                                                key={index}
                                             >
                                                 {label}
-                                            </Link>
-                                        </Button>
+                                            </Button>
+                                        </Link>
                                     );
                                 })}
                             </>
@@ -181,20 +181,20 @@ function Navbar(props) {
                                 {notLoggedInPages.map((item, index) => {
                                     const { label, to } = item;
                                     return (
-                                        <Button
-                                            sx={{ color: "black" }}
-                                            key={index}
+                                        <Link
+                                            to={to}
+                                            sx={{
+                                                textDecoration: "none",
+                                                color: "black",
+                                            }}
                                         >
-                                            <Link
-                                                to={to}
-                                                sx={{
-                                                    textDecoration: "none",
-                                                    color: "black",
-                                                }}
+                                            <Button
+                                                sx={{ color: "black" }}
+                                                key={index}
                                             >
                                                 {label}
-                                            </Link>
-                                        </Button>
+                                            </Button>
+                                        </Link>
                                     );
                                 })}
                             </>
