@@ -8,7 +8,15 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../Store";
 
-import { Card, Grid, Typography, Button, Box, TextField } from "@mui/material";
+import {
+    Card,
+    Grid,
+    Typography,
+    Button,
+    Box,
+    TextField,
+    Badge,
+} from "@mui/material";
 import Loader from "../../Components/General/Loader";
 import ShareDialog from "../../Components/Projects/ShareDialog";
 
@@ -28,6 +36,11 @@ function IndividualProjectPage() {
     const id = useSelector((state) => state.id);
     const { projectId } = useParams();
     const currentToken = localStorage.getItem("userToken");
+    const statuses = [
+        "Getting User Feedback",
+        "Finding Manpower",
+        "Finding Investors",
+    ];
 
     const loadPage = async () => {
         setLoading(true);
@@ -169,6 +182,16 @@ function IndividualProjectPage() {
                                         Description:{" "}
                                         {currentProject.projectDescription}
                                     </Typography>
+                                    <Badge
+                                        badgeContent={statuses[currentProject.status]}
+                                        color="primary"
+                                        sx={{
+                                            "& .MuiBadge-badge": {
+                                                width: "max-content",
+                                                background: "#0cb268",
+                                            },
+                                        }}
+                                    />
                                     <hr />
                                     <Typography
                                         variant="h6"

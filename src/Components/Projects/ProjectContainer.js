@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Grid, Typography, Button } from "@mui/material";
+import { Card, Grid, Typography, Button, Badge } from "@mui/material";
 import { Link } from "react-router-dom";
 import ShareDialog from "./ShareDialog";
 
@@ -25,10 +25,16 @@ function ProjectContainer({
         projectPicture,
         likes,
         comments,
+        status,
         userId: ownerId,
     } = project;
 
     const [openDialog, setOpenDialog] = useState(false);
+    const statuses = [
+        "Getting User Feedback",
+        "Finding Manpower",
+        "Finding Investors",
+    ];
 
     return (
         <>
@@ -47,6 +53,16 @@ function ProjectContainer({
                     <Typography variant={"subtitle2"} textAlign={"left"}>
                         {projectDescription}
                     </Typography>
+                    <Badge
+                        badgeContent={statuses[status]}
+                        color="primary"
+                        sx={{
+                            "& .MuiBadge-badge": {
+                                width: "max-content",
+                                background: "#0cb268",
+                            },
+                        }}
+                    />
                     <hr />
                     {!userId ? (
                         <>
