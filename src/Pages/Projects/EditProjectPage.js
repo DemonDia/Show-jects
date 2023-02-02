@@ -13,6 +13,7 @@ import Loader from "../../Components/General/Loader";
 
 function EditProjectPage() {
     const [loading, setLoading] = useState(false);
+    const [previousImageId, setPreviousImageId] = useState(null);
     const [currentProject, setCurrentProject] = useState(null);
     const id = useSelector((state) => state.id);
     const { projectId } = useParams();
@@ -56,6 +57,7 @@ function EditProjectPage() {
             .get(`${process.env.REACT_APP_API_LINK}/projects/${projectId}`)
             .then((res) => {
                 setCurrentProject(res.data.data);
+                setPreviousImageId(res.data.data.projectPicture.pictureId)
             });
     };
 
@@ -66,7 +68,7 @@ function EditProjectPage() {
     return (
         <div>
             {loading ? (
-                <Loader/>
+                <Loader />
             ) : (
                 <>
                     {" "}
@@ -74,6 +76,7 @@ function EditProjectPage() {
                         <>
                             {" "}
                             <ProjectForm
+                                previousImageId={previousImageId}
                                 submitFunction={updateProject}
                                 title={"Edit Project"}
                                 userId={id}

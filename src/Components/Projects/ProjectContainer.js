@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Grid, Typography, Button, Badge } from "@mui/material";
+import { Card, Grid, Typography, Button, Badge ,Paper} from "@mui/material";
 import { Link } from "react-router-dom";
 import ShareDialog from "./ShareDialog";
 
@@ -40,13 +40,16 @@ function ProjectContainer({
         <>
             <Grid item xs={6} sm={4} md={3} lg={2}>
                 <Card sx={{ margin: "10px", padding: "10px" }}>
-                    <img
-                        className={"projectImageContainer"}
-                        src={projectPicture}
-                        style={{
-                            maxWidth: "100%",
-                        }}
-                    />
+                    <Paper>
+                        <img
+                            object-fit="cover"
+                            className={"projectImageContainer"}
+                            src={projectPicture.url}
+                            style={{
+                                maxWidth: "100%",
+                            }}
+                        />
+                    </Paper>
                     <Typography variant={"h5"} textAlign={"left"}>
                         {projectName}
                     </Typography>

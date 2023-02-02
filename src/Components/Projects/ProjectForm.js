@@ -13,7 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import ProjectLinkRow from "./ProjectLinkRow";
 
-function ProjectForm({ submitFunction, title, userId, projectObject }) {
+function ProjectForm({ submitFunction, title, userId, projectObject,previousImageId }) {
     const [projectName, setProjectName] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
     const [status, setStatus] = useState(0);
@@ -51,7 +51,7 @@ function ProjectForm({ submitFunction, title, userId, projectObject }) {
             setStatus(status);
             setProjectLinks(projectLinks);
             setProjectPicture(projectPicture);
-            setImagePreviewURL(projectPicture);
+            setImagePreviewURL(projectPicture.url);
         }
     };
 
@@ -79,6 +79,7 @@ function ProjectForm({ submitFunction, title, userId, projectObject }) {
                 status,
                 projectLinks,
                 projectPicture,
+                previousImageId,
             };
             await submitFunction(currProject);
         }
@@ -88,7 +89,7 @@ function ProjectForm({ submitFunction, title, userId, projectObject }) {
     };
 
     // =================project picture=================
-    const [projectPicture, setProjectPicture] = useState(null);
+    const [projectPicture, setProjectPicture] = useState("");
     const [imagePreviewURL, setImagePreviewURL] = useState("");
     // for file upload & preview
     const handleImageChange = async (event) => {
@@ -117,7 +118,7 @@ function ProjectForm({ submitFunction, title, userId, projectObject }) {
 
     // for removing selected image
     const handleRemoveImage = () => {
-        setProjectPicture(null);
+        setProjectPicture("");
         setImagePreviewURL("");
     };
 
