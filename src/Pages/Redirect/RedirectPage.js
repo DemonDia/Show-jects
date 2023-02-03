@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { redirectAuthCheck } from "../../HelperFunctions/authCheck";
+import Loader from "../../Components/General/Loader";
 
 function RedirectPage() {
     const navigate = useNavigate();
@@ -10,7 +11,7 @@ function RedirectPage() {
 
     return (
         <div>
-            <h1>Redirect</h1>
+            <Loader message={"Redirecting ..."} />
         </div>
     );
 }
