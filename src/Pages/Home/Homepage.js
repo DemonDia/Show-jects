@@ -23,7 +23,7 @@ function Homepage() {
         },
         {
             label: "Add Project",
-            to: "/projects/add",
+            to: "/projects/create",
         },
         {
             label: "Manage Projects",
