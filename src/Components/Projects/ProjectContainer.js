@@ -72,7 +72,7 @@ function ProjectContainer({
                             <Grid container spacing={2}>
                                 <Grid
                                     item
-                                    xs={6}
+                                    xs={4}
                                     sx={{
                                         margin: "auto",
                                         display: "flex",
@@ -84,7 +84,7 @@ function ProjectContainer({
                                 </Grid>
                                 <Grid
                                     item
-                                    xs={6}
+                                    xs={4}
                                     sx={{
                                         margin: "auto",
                                         display: "flex",
@@ -94,9 +94,9 @@ function ProjectContainer({
                                 >
                                     {comments.length} <ChatBubbleOutlineIcon />
                                 </Grid>
-                                {/* <Grid
+                                <Grid
                                     item
-                                    xs={6}
+                                    xs={4}
                                     sx={{
                                         margin: "auto",
                                         display: "flex",
@@ -104,8 +104,15 @@ function ProjectContainer({
                                         justifyContent: "center",
                                     }}
                                 >
-                                    <Button variant={"filled"}></Button>
-                                </Grid> */}
+                                    <Button
+                                        variant={"filled"}
+                                        onClick={() => {
+                                            setOpenDialog(true);
+                                        }}
+                                    >
+                                        <ShareIcon />
+                                    </Button>
+                                </Grid>
                             </Grid>
                         </>
                     ) : (
