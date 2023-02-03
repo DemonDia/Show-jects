@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Card, Grid, TextField, Box, Select, MenuItem } from "@mui/material";
 import ProjectContainer from "../../Components/Projects/ProjectContainer";
+import Loader from "../General/Loader";
 function ProjectListContainer({
     projects,
     isOwner,
@@ -95,7 +96,7 @@ function ProjectListContainer({
                                 })}
                         </>
                     ) : (
-                        <></>
+                        <><Loader/> </>
                     )}
                 </Grid>
             </Box>
