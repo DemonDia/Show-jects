@@ -150,14 +150,23 @@ function IndividualProjectPage() {
                                     </Link>
                                 </Typography>
                                 <Box>
-                                    <img
-                                        src={currentProject.projectPicture}
-                                        alt={"Add image"}
-                                        style={{
-                                            width: "100%",
-                                            margin: "auto",
-                                        }}
-                                    />
+                                    {currentProject.projectPicture.url ? (
+                                        <>
+                                            {" "}
+                                            <img
+                                                src={
+                                                    currentProject.projectPicture.url
+                                                }
+                                                alt={"Add image"}
+                                                style={{
+                                                    width: "100%",
+                                                    margin: "auto",
+                                                }}
+                                            />
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )}
                                 </Box>
                                 <Box>
                                     <Typography
@@ -183,7 +192,9 @@ function IndividualProjectPage() {
                                         {currentProject.projectDescription}
                                     </Typography>
                                     <Badge
-                                        badgeContent={statuses[currentProject.status]}
+                                        badgeContent={
+                                            statuses[currentProject.status]
+                                        }
                                         color="primary"
                                         sx={{
                                             "& .MuiBadge-badge": {
