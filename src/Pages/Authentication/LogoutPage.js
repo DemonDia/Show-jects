@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { defaultAuthCheck } from "../../HelperFunctions/authCheck";
-import axios from "axios";
-
+import Loader from "../../Components/General/Loader";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../Store";
 
@@ -16,7 +15,7 @@ function LogoutPage(props) {
                 localStorage.removeItem("userToken");
                 dispatch(userActions.logout());
                 alert("Successfully logged out!");
-                navigate("/landing");
+                navigate("/");
             }
         });
     };
@@ -24,7 +23,11 @@ function LogoutPage(props) {
         loadPage();
     }, []);
 
-    return <div></div>;
+    return (
+        <>
+            <Loader message={"Logging out..."} />
+        </>
+    );
 }
 
 export default LogoutPage;

@@ -13,6 +13,7 @@ import Loader from "../../Components/General/Loader";
 
 function EditProjectPage() {
     const [loading, setLoading] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
     const [previousImageId, setPreviousImageId] = useState(null);
     const [currentProject, setCurrentProject] = useState(null);
     const id = useSelector((state) => state.id);
@@ -37,6 +38,7 @@ function EditProjectPage() {
 
     const updateProject = async (project) => {
         const currentToken = localStorage.getItem("userToken");
+        setIsUpdating(true);
         await axios
             .put(
                 `${process.env.REACT_APP_API_LINK}/projects/${projectId}`,
@@ -45,9 +47,11 @@ function EditProjectPage() {
             )
             .then(() => {
                 alert("Project updated");
+                setIsUpdating(false)
                 navigate("/user/projects/");
             })
             .catch((err) => {
+                setIsUpdating(false)
                 alert("Failed to update");
             });
     };
@@ -57,7 +61,7 @@ function EditProjectPage() {
             .get(`${process.env.REACT_APP_API_LINK}/projects/${projectId}`)
             .then((res) => {
                 setCurrentProject(res.data.data);
-                setPreviousImageId(res.data.data.projectPicture.pictureId)
+                setPreviousImageId(res.data.data.projectPicture.pictureId);
             });
     };
 
@@ -81,6 +85,8 @@ function EditProjectPage() {
                                 title={"Edit Project"}
                                 userId={id}
                                 projectObject={currentProject}
+                                isExecuting={isUpdating}
+                                message={"Updating ..."}
                             />
                         </>
                     ) : (

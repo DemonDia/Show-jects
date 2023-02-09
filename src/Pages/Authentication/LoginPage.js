@@ -12,19 +12,23 @@ import { useDispatch } from "react-redux";
 import { userActions } from "../../Store";
 function LoginPage() {
     const [loading, setLoading] = useState(false);
+    const [loggingIn, setIsLoggingIn] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const login = async (loginUser) => {
+        setIsLoggingIn(true);
         await axios
             .post(process.env.REACT_APP_API_LINK + "/users/login", loginUser)
             .then((res) => {
                 const { message, token } = res.data;
+                setIsLoggingIn(false);
                 alert(message);
                 localStorage.setItem("userToken", token);
                 navigate("/home");
             })
             .catch((err) => {
+                setIsLoggingIn(false);
                 console.log(err);
             });
     };
@@ -47,7 +51,18 @@ function LoginPage() {
     }, []);
     return (
         <div>
-            {loading?<><Loader/></>:<UserForm mode="login" submitFunction={login} />}
+            {loading ? (
+                <>
+                    <Loader />
+                </>
+            ) : (
+                <UserForm
+                    mode="login"
+                    submitFunction={login}
+                    isExecuting={loggingIn}
+                    message={"Logging in..."}
+                />
+            )}
         </div>
     );
 }

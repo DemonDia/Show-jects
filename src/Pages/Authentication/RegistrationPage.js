@@ -13,18 +13,22 @@ import Loader from "../../Components/General/Loader";
 
 function RegistrationPage() {
     const [loading, setLoading] = useState(false);
+    const [isRegistering, setIsRegistering] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const register = async (newUser) => {
+        setIsRegistering(true);
         await axios
             .post(process.env.REACT_APP_API_LINK + "/users/", newUser)
             .then((res) => {
                 const { message } = res.data;
+                setIsRegistering(false);
                 alert(message);
-                navigate("/login")
+                navigate("/login");
             })
             .catch((err) => {
+                setIsRegistering(false);
                 console.log(err);
             });
     };
@@ -44,14 +48,14 @@ function RegistrationPage() {
 
     useEffect(() => {
         loadPage();
-    },[]);
+    }, []);
 
     return (
         <div>
             {loading ? (
                 <Loader />
             ) : (
-                <UserForm mode="register" submitFunction={register} />
+                <UserForm mode="register" submitFunction={register} isExecuting={isRegistering} message={"Creating account ..."} />
             )}
         </div>
     );

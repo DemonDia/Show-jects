@@ -12,8 +12,17 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ProjectLinkRow from "./ProjectLinkRow";
+import Loader from "../General/Loader";
 
-function ProjectForm({ submitFunction, title, userId, projectObject,previousImageId }) {
+function ProjectForm({
+    submitFunction,
+    title,
+    userId,
+    projectObject,
+    previousImageId,
+    isExecuting,
+    message,
+}) {
     const [projectName, setProjectName] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
     const [status, setStatus] = useState(0);
@@ -168,167 +177,220 @@ function ProjectForm({ submitFunction, title, userId, projectObject,previousImag
 
     return (
         <div>
-            <Card
-                variant="outlined"
-                sx={{
-                    padding: "10px;",
-                    margin: "10px auto;",
-                    width: {
-                        xs: "90vw",
-                        md: "70vw",
-                        lg: "40vw",
-                    },
-                }}
-            >
-                <Typography
-                    variant="h4"
-                    sx={{
-                        padding: "10px;",
-                        margin: "10px;",
-                    }}
-                >
-                    {title}
-                </Typography>
-                <Paper variant="outlined">
-                    <img
-                        src={imagePreviewURL}
-                        alt={"Add image"}
-                        style={{
-                            width: "100%",
-                            margin: "auto",
-                        }}
-                    />
-                    <Button
+            {isExecuting ? (
+                <>
+                    <Loader message={message} />
+                </>
+            ) : (
+                <>
+                    {" "}
+                    <Card
                         variant="outlined"
-                        component="label"
                         sx={{
-                            background: "#41B883",
-                            width: "100%",
-                            margin: "10px auto",
-                            padding: "10px",
-                            color: "white",
-                            "&:hover": {
-                                color: "black",
+                            padding: "10px;",
+                            margin: "10px auto;",
+                            width: {
+                                xs: "90vw",
+                                md: "70vw",
+                                lg: "40vw",
                             },
                         }}
                     >
-                        Upload File
-                        <input
-                            type="file"
-                            hidden
-                            onChange={(e) => {
-                                handleImageChange(e);
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                padding: "10px;",
+                                margin: "10px;",
                             }}
-                            accept="image/png, image/gif, image/jpeg"
+                        >
+                            {title}
+                        </Typography>
+                        <Paper variant="outlined">
+                            <img
+                                src={imagePreviewURL}
+                                alt={"Add image"}
+                                style={{
+                                    width: "100%",
+                                    margin: "auto",
+                                }}
+                            />
+                            <Button
+                                variant="outlined"
+                                component="label"
+                                sx={{
+                                    background: "#41B883",
+                                    width: "100%",
+                                    margin: "10px auto",
+                                    padding: "10px",
+                                    color: "white",
+                                    "&:hover": {
+                                        color: "black",
+                                    },
+                                }}
+                            >
+                                Upload File
+                                <input
+                                    type="file"
+                                    hidden
+                                    onChange={(e) => {
+                                        handleImageChange(e);
+                                    }}
+                                    accept="image/png, image/gif, image/jpeg"
+                                />
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                component="label"
+                                sx={{
+                                    background: "#34495E",
+                                    width: "100%",
+                                    margin: "10px auto",
+                                    padding: "10px",
+                                    color: "white",
+                                    "&.Mui-disabled": {
+                                        color: "white",
+                                        background: "grey",
+                                    },
+                                    "&:hover": {
+                                        color: "black",
+                                    },
+                                }}
+                                disabled={
+                                    imagePreviewURL && projectPicture
+                                        ? false
+                                        : true
+                                }
+                                onClick={() => {
+                                    handleRemoveImage();
+                                }}
+                            >
+                                Remove Image
+                            </Button>
+                        </Paper>
+                        <TextField
+                            label="Project Name (Max 30 characters)"
+                            variant="outlined"
+                            sx={{
+                                width: "100%",
+                                margin: "10px auto",
+                            }}
+                            value={projectName}
+                            onChange={(e) => {
+                                setProjectName(e.target.value);
+                            }}
                         />
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        component="label"
-                        sx={{
-                            background: "#34495E",
-                            width: "100%",
-                            margin: "10px auto",
-                            padding: "10px",
-                            color: "white",
-                            "&.Mui-disabled": {
-                                color: "white",
-                                background: "grey",
-                            },
-                            "&:hover": {
+                        <TextField
+                            label="Project Description (Max 300 characters)*"
+                            variant="outlined"
+                            multiline
+                            sx={{
+                                width: "100%",
+                                margin: "10px auto",
+                            }}
+                            value={projectDescription}
+                            onChange={(e) => {
+                                setProjectDescription(e.target.value);
+                            }}
+                        />
+                        <Select
+                            value={status}
+                            variant="outlined"
+                            sx={{
+                                width: "100%",
+                                margin: "10px auto",
                                 color: "black",
-                            },
-                        }}
-                        disabled={
-                            imagePreviewURL && projectPicture ? false : true
-                        }
-                        onClick={() => {
-                            handleRemoveImage();
-                        }}
-                    >
-                        Remove Image
-                    </Button>
-                </Paper>
-                <TextField
-                    label="Project Name (Max 30 characters)"
-                    variant="outlined"
-                    sx={{
-                        width: "100%",
-                        margin: "10px auto",
-                    }}
-                    value={projectName}
-                    onChange={(e) => {
-                        setProjectName(e.target.value);
-                    }}
-                />
-                <TextField
-                    label="Project Description (Max 300 characters)*"
-                    variant="outlined"
-                    multiline
-                    sx={{
-                        width: "100%",
-                        margin: "10px auto",
-                    }}
-                    value={projectDescription}
-                    onChange={(e) => {
-                        setProjectDescription(e.target.value);
-                    }}
-                />
-                <Select
-                    value={status}
-                    variant="outlined"
-                    sx={{
-                        width: "100%",
-                        margin: "10px auto",
-                        color: "black",
-                        textAlign: "left",
-                    }}
-                    onChange={(e) => {
-                        setStatus(e.target.value);
-                    }}
-                    label="Status"
-                >
-                    {statuses.map((value, index) => {
-                        return (
-                            <MenuItem value={index} key={index}>
-                                {value}
-                            </MenuItem>
-                        );
-                    })}
-                </Select>
-                {/* </FormControl> */}
+                                textAlign: "left",
+                            }}
+                            onChange={(e) => {
+                                setStatus(e.target.value);
+                            }}
+                            label="Status"
+                        >
+                            {statuses.map((value, index) => {
+                                return (
+                                    <MenuItem value={index} key={index}>
+                                        {value}
+                                    </MenuItem>
+                                );
+                            })}
+                        </Select>
+                        {/* </FormControl> */}
 
-                <hr></hr>
-                <Grid container>
-                    <Grid item xs={12} md={5}>
-                        <TextField
-                            label="Link Name (Max 30 characters)*"
-                            variant="outlined"
-                            sx={{
-                                width: "100%",
-                                margin: "10px auto",
-                            }}
-                            value={linkName}
-                            onChange={(e) => {
-                                setLinkName(e.target.value);
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={5}>
-                        <TextField
-                            label="Link URL*"
-                            variant="outlined"
-                            sx={{
-                                width: "100%",
-                                margin: "10px auto",
-                            }}
-                            value={url}
-                            onChange={(e) => {
-                                setUrl(e.target.value);
-                            }}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={2}>
+                        <hr></hr>
+                        <Grid container>
+                            <Grid item xs={12} md={5}>
+                                <TextField
+                                    label="Link Name (Max 30 characters)*"
+                                    variant="outlined"
+                                    sx={{
+                                        width: "100%",
+                                        margin: "10px auto",
+                                    }}
+                                    value={linkName}
+                                    onChange={(e) => {
+                                        setLinkName(e.target.value);
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={5}>
+                                <TextField
+                                    label="Link URL*"
+                                    variant="outlined"
+                                    sx={{
+                                        width: "100%",
+                                        margin: "10px auto",
+                                    }}
+                                    value={url}
+                                    onChange={(e) => {
+                                        setUrl(e.target.value);
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={2}>
+                                <Button
+                                    variant="outlined"
+                                    component="label"
+                                    sx={{
+                                        background: "#41B883",
+                                        width: "100%",
+                                        margin: "10px auto",
+                                        padding: "10px",
+                                        color: "white",
+                                        "&.Mui-disabled": {
+                                            color: "white",
+                                            background: "grey",
+                                        },
+                                        "&:hover": {
+                                            color: "black",
+                                        },
+                                    }}
+                                    onClick={() => {
+                                        addProjectLink();
+                                    }}
+                                >
+                                    Add Link
+                                </Button>
+                            </Grid>
+                        </Grid>
+                        {/* where you put the links */}
+                        {projectLinks ? (
+                            <>
+                                {projectLinks.map((projectLink, index) => (
+                                    <ProjectLinkRow
+                                        projectLink={projectLink}
+                                        key={projectLink.linkName}
+                                        index={index}
+                                        handleEdit={updateProjectLinkChanges}
+                                        handleDelete={deleteProjectLink}
+                                    />
+                                ))}
+                            </>
+                        ) : (
+                            <></>
+                        )}
+
+                        <br />
+                        <hr />
                         <Button
                             variant="outlined"
                             component="label"
@@ -347,79 +409,37 @@ function ProjectForm({ submitFunction, title, userId, projectObject,previousImag
                                 },
                             }}
                             onClick={() => {
-                                addProjectLink();
+                                handleSubmit();
                             }}
                         >
-                            Add Link
+                            {projectObject ? <>Save</> : <>Submit</>}
                         </Button>
-                    </Grid>
-                </Grid>
-                {/* where you put the links */}
-                {projectLinks ? (
-                    <>
-                        {projectLinks.map((projectLink, index) => (
-                            <ProjectLinkRow
-                                projectLink={projectLink}
-                                key={projectLink.linkName}
-                                index={index}
-                                handleEdit={updateProjectLinkChanges}
-                                handleDelete={deleteProjectLink}
-                            />
-                        ))}
-                    </>
-                ) : (
-                    <></>
-                )}
-
-                <br />
-                <hr />
-                <Button
-                    variant="outlined"
-                    component="label"
-                    sx={{
-                        background: "#41B883",
-                        width: "100%",
-                        margin: "10px auto",
-                        padding: "10px",
-                        color: "white",
-                        "&.Mui-disabled": {
-                            color: "white",
-                            background: "grey",
-                        },
-                        "&:hover": {
-                            color: "black",
-                        },
-                    }}
-                    onClick={() => {
-                        handleSubmit();
-                    }}
-                >
-                    {projectObject ? <>Save</> : <>Submit</>}
-                </Button>
-                <Button
-                    variant="outlined"
-                    component="label"
-                    sx={{
-                        background: "#34495E",
-                        width: "100%",
-                        margin: "10px auto",
-                        padding: "10px",
-                        color: "white",
-                        "&.Mui-disabled": {
-                            color: "white",
-                            background: "grey",
-                        },
-                        "&:hover": {
-                            color: "black",
-                        },
-                    }}
-                    onClick={() => {
-                        handleCancel();
-                    }}
-                >
-                    Cancel
-                </Button>
-            </Card>
+                        <Button
+                            variant="outlined"
+                            component="label"
+                            sx={{
+                                background: "#34495E",
+                                width: "100%",
+                                margin: "10px auto",
+                                padding: "10px",
+                                color: "white",
+                                "&.Mui-disabled": {
+                                    color: "white",
+                                    background: "grey",
+                                },
+                                "&:hover": {
+                                    color: "black",
+                                },
+                            }}
+                            onClick={() => {
+                                handleCancel();
+                            }}
+                        >
+                            Cancel
+                        </Button>
+                    </Card>
+                </>
+            )}
         </div>
     );
 }
