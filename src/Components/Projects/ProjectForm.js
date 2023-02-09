@@ -81,16 +81,29 @@ function ProjectForm({
         if (errors.length > 0) {
             alert("Please resolve the problems");
         } else {
-            const currProject = {
-                userId,
-                projectName,
-                projectDescription,
-                status,
-                projectLinks,
-                projectPicture,
-                previousImageId,
-            };
-            await submitFunction(currProject);
+            var currProject = {}
+            if (!imageChanged) {
+                currProject = {
+                    userId,
+                    projectName,
+                    projectDescription,
+                    status,
+                    projectLinks,
+                };
+                await submitFunction(currProject);
+            }
+            else{
+                currProject = {
+                    userId,
+                    projectName,
+                    projectDescription,
+                    status,
+                    projectLinks,
+                    projectPicture,
+                    previousImageId,
+                };
+                await submitFunction(currProject);
+            }
         }
     };
     const handleCancel = () => {
@@ -100,14 +113,16 @@ function ProjectForm({
     // =================project picture=================
     const [projectPicture, setProjectPicture] = useState("");
     const [imagePreviewURL, setImagePreviewURL] = useState("");
+    const [imageChanged, setImageChanged] = useState(false);
     // for file upload & preview
     const handleImageChange = async (event) => {
         if (event.target.files && event.target.files.length == 1) {
             const selectedImage = event.target.files[0];
             converImageToBase64(selectedImage).then((res) => {
                 setProjectPicture(res);
+                setImagePreviewURL(URL.createObjectURL(selectedImage));
+                setImageChanged(true);
             });
-            setImagePreviewURL(URL.createObjectURL(selectedImage));
         }
     };
 
