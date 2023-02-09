@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Grid, Typography, Button, Badge ,Paper} from "@mui/material";
+import { Card, Grid, Typography, Button, Badge, Paper } from "@mui/material";
 import { Link } from "react-router-dom";
 import ShareDialog from "./ShareDialog";
 
@@ -212,20 +212,16 @@ function ProjectContainer({
                                     <Button
                                         variant={"filled"}
                                         sx={{
-                                            background: "green",
-                                            color: "white",
                                             padding: "5px",
                                             width: "100%",
-                                            "&:hover": {
-                                                background: "#37B47C",
-                                            },
                                         }}
                                     >
                                         <Link
                                             to={`/projects/edit/${_id}`}
                                             style={{
-                                                color: "white",
+                                                color: "black",
                                                 textDecoration: "none",
+                                                padding: "0",
                                             }}
                                         >
                                             <CreateIcon />
@@ -236,19 +232,23 @@ function ProjectContainer({
                                     <Button
                                         variant={"filled"}
                                         sx={{
-                                            background: "#B43737",
-                                            color: "white",
+                                            color: "black",
                                             padding: "5px",
                                             width: "100%",
-                                            "&:hover": {
-                                                background: "#CB1919",
-                                            },
                                         }}
                                         onClick={() => {
                                             handleDelete(_id);
                                         }}
                                     >
-                                        <DeleteOutlineIcon />
+                                        <Link
+                                            style={{
+                                                color: "black",
+                                                textDecoration: "none",
+                                                padding: "0",
+                                            }}
+                                        >
+                                            <DeleteOutlineIcon />
+                                        </Link>
                                     </Button>
                                 </Grid>
                             </Grid>
