@@ -36,20 +36,20 @@ function UserProfile() {
             .then(async (res) => {
                 const { name, id } = getCurrentUser(res);
                 dispatch(userActions.login({ name, id }));
-                Promise.allSettled([profilePromise, projectPromise]).then(
-                    (res) => {
-                        console.log(res);
-                        const [profileResult, projectResults] = res;
-                        setUser(profileResult.value.data.user);
-                        setProjects(projectResults.value.data.data);
-                    }
-                );
-                setLoading(false);
             })
             .catch(() => {
                 dispatch(userActions.logout());
                 setLoading(false);
             });
+            Promise.allSettled([profilePromise, projectPromise]).then(
+                (res) => {
+                    console.log(res);
+                    const [profileResult, projectResults] = res;
+                    setUser(profileResult.value.data.user);
+                    setProjects(projectResults.value.data.data);
+                }
+            );
+            setLoading(false);
     };
 
     useEffect(() => {
