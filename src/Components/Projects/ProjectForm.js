@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import ProjectLinkRow from "./ProjectLinkRow";
 import Loader from "../General/Loader";
 
+import { formatDate } from "../../HelperFunctions/dateFormats";
+
 function ProjectForm({
     submitFunction,
     title,
@@ -26,6 +28,7 @@ function ProjectForm({
     const [projectName, setProjectName] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
     const [status, setStatus] = useState(0);
+    const [uploadDate, setUploadDate] = useState("");
     const fileReader = new FileReader();
 
     const statuses = [
@@ -54,6 +57,7 @@ function ProjectForm({
                 status,
                 projectPicture,
                 projectLinks,
+                addedDate,
             } = projectObject;
             setProjectName(projectName);
             setProjectDescription(projectDescription);
@@ -61,6 +65,7 @@ function ProjectForm({
             setProjectLinks(projectLinks);
             setProjectPicture(projectPicture);
             setImagePreviewURL(projectPicture.url);
+            setUploadDate(formatDate(addedDate));
         }
     };
 
@@ -81,7 +86,7 @@ function ProjectForm({
         if (errors.length > 0) {
             alert("Please resolve the problems");
         } else {
-            var currProject = {}
+            var currProject = {};
             if (!imageChanged) {
                 currProject = {
                     userId,
@@ -91,8 +96,7 @@ function ProjectForm({
                     projectLinks,
                 };
                 await submitFunction(currProject);
-            }
-            else{
+            } else {
                 currProject = {
                     userId,
                     projectName,
@@ -294,6 +298,23 @@ function ProjectForm({
                                 setProjectName(e.target.value);
                             }}
                         />
+                        {uploadDate ? (
+                            <>
+                                {" "}
+                                <TextField
+                                    label="Upload date"
+                                    variant="outlined"
+                                    sx={{
+                                        width: "100%",
+                                        margin: "10px auto",
+                                    }}
+                                    value={uploadDate}
+                                    disabled
+                                />
+                            </>
+                        ) : (
+                            <></>
+                        )}
                         <TextField
                             label="Project Description (Max 300 characters)*"
                             variant="outlined"

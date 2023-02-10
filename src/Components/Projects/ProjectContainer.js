@@ -11,6 +11,9 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CreateIcon from "@mui/icons-material/Create";
 import ShareIcon from "@mui/icons-material/Share";
 
+// helper function
+import { formatDate } from "../../HelperFunctions/dateFormats";
+
 function ProjectContainer({
     project,
     isOwner,
@@ -26,6 +29,7 @@ function ProjectContainer({
         likes,
         comments,
         status,
+        addedDate,
         userId: ownerId,
     } = project;
 
@@ -56,6 +60,10 @@ function ProjectContainer({
                     <Typography variant={"subtitle2"} textAlign={"left"}>
                         {projectDescription}
                     </Typography>
+                    <Typography variant={"subtitle2"} textAlign={"left"}>
+                        {formatDate(addedDate)}
+                    </Typography>
+
                     <Badge
                         badgeContent={statuses[status]}
                         color="primary"

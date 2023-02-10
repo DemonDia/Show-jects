@@ -26,6 +26,10 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import ShareIcon from "@mui/icons-material/Share";
 
+// helper function
+import { formatDate } from "../../HelperFunctions/dateFormats";
+import { current } from "@reduxjs/toolkit";
+
 function IndividualProjectPage() {
     const [loading, setLoading] = useState(false);
     const [currentProject, setCurrentProject] = useState(null);
@@ -77,7 +81,7 @@ function IndividualProjectPage() {
                     },
                     { headers: { Authorization: `Bearer ${currentToken}` } }
                 )
-                .then(async (result) => {
+                .then(async () => {
                     await getCurrentProject();
                 })
                 .catch((err) => {});
@@ -101,7 +105,7 @@ function IndividualProjectPage() {
                 },
                 { headers: { Authorization: `Bearer ${currentToken}` } }
             )
-            .then(async (result) => {
+            .then(async () => {
                 setComment("");
                 await getCurrentProject();
             })
@@ -155,7 +159,8 @@ function IndividualProjectPage() {
                                             {" "}
                                             <img
                                                 src={
-                                                    currentProject.projectPicture.url
+                                                    currentProject
+                                                        .projectPicture.url
                                                 }
                                                 alt={"Add image"}
                                                 style={{
@@ -170,10 +175,9 @@ function IndividualProjectPage() {
                                 </Box>
                                 <Box>
                                     <Typography
-                                        variant="h6"
+                                        variant="h4"
                                         textAlign={"left"}
                                         sx={{
-                                            padding: "10px;",
                                             margin: "10px;",
                                         }}
                                     >
@@ -181,16 +185,27 @@ function IndividualProjectPage() {
                                         {currentProject.projectName}
                                     </Typography>
                                     <Typography
-                                        variant="subtitle2"
+                                        variant="h5"
                                         textAlign={"left"}
                                         sx={{
-                                            padding: "10px;",
                                             margin: "10px;",
                                         }}
                                     >
-                                        Description:{" "}
                                         {currentProject.projectDescription}
                                     </Typography>
+                                    <hr />
+                                    <Typography
+                                        variant="h5"
+                                        textAlign={"left"}
+                                        sx={{
+                                            margin: "10px;",
+                                        }}
+                                    >
+                                        Uploaded at :{" "}
+                                        {formatDate(currentProject.addedDate)}
+                                    </Typography>{" "}
+                                    <></>
+                                    )}
                                     <Badge
                                         badgeContent={
                                             statuses[currentProject.status]
