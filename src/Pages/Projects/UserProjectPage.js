@@ -37,7 +37,6 @@ function UserProjectPage() {
         setLoading(true);
         axios
             .get(`${process.env.REACT_APP_API_LINK}/projects/user/${id}`, {
-                headers: { Authorization: `Bearer ${currentToken}` },
             })
             .then((result) => {
                 setUserProjects(result.data.data);

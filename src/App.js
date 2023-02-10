@@ -28,6 +28,7 @@ import IndividualProjectPage from "./Pages/Projects/IndividualProjectPage";
 
 // ======================users======================
 import UserProfile from "./Pages/User/UserProfile";
+
 import UserProjectPage from "./Pages/Projects/UserProjectPage";
 
 // ======================redirect======================
@@ -85,7 +86,7 @@ function App() {
                     />
                     <Route
                         exact
-                        path="/user/profile"
+                        path="/user/profile/:userId"
                         element={<UserProfile />}
                     />
                     {/* ======================redirect====================== */}
