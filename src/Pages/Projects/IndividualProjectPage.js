@@ -36,6 +36,7 @@ function IndividualProjectPage() {
     const [openDialog, setOpenDialog] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    var userProfileUrl = "";
 
     const id = useSelector((state) => state.id);
     const { projectId } = useParams();
@@ -67,6 +68,7 @@ function IndividualProjectPage() {
             .then((res) => {
                 const project = res.data.data;
                 setCurrentProject(project);
+                userProfileUrl = `${process.env.REACT_APP_UI_LINK}user/profile/${project.userId}`;
             });
     };
 
@@ -184,6 +186,22 @@ function IndividualProjectPage() {
                                         Project Name:{" "}
                                         {currentProject.projectName}
                                     </Typography>
+                                    <Typography
+                                        variant={"h5"}
+                                        textAlign={"left"}
+                                        sx={{
+                                            margin: "10px;",
+                                        }}
+                                    >
+                                        By:{" "}
+                                        <a
+                                            href={userProfileUrl}
+                                            target={"_blank"}
+                                        >
+                                            {username}
+                                        </a>
+                                    </Typography>
+                                    <hr />
                                     <Typography
                                         variant="h5"
                                         textAlign={"left"}

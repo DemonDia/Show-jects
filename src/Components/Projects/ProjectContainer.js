@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Card, Grid, Typography, Button, Badge, Paper } from "@mui/material";
+import {
+    Card,
+    Grid,
+    Typography,
+    Button,
+    Badge,
+    Paper,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import ShareDialog from "./ShareDialog";
 
@@ -31,8 +38,9 @@ function ProjectContainer({
         status,
         addedDate,
         userId: ownerId,
+        username,
     } = project;
-
+    const userProfileUrl = `${process.env.REACT_APP_UI_LINK}user/profile/${ownerId}`;
     const [openDialog, setOpenDialog] = useState(false);
     const statuses = [
         "Getting User Feedback",
@@ -57,6 +65,20 @@ function ProjectContainer({
                     <Typography variant={"h5"} textAlign={"left"}>
                         {projectName}
                     </Typography>
+                    {isOwner && userId == ownerId ? (
+                        <></>
+                    ) : (
+                        <>
+                            {" "}
+                            <Typography variant={"h6"} textAlign={"left"}>
+                                By:{" "}
+                                <a href={userProfileUrl} target={"_blank"}>
+                                    {username}
+                                </a>
+                            </Typography>
+                        </>
+                    )}
+
                     <Typography variant={"subtitle2"} textAlign={"left"}>
                         {projectDescription}
                     </Typography>

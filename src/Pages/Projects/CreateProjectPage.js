@@ -14,6 +14,7 @@ function CreateProjectPage() {
     const [loading, setLoading] = useState(false);
     const [isAdding, setIsAdding] = useState(false);
     const id = useSelector((state) => state.id);
+    const username = useSelector((state) => state.username);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -38,7 +39,7 @@ function CreateProjectPage() {
             .post(
                 process.env.REACT_APP_API_LINK + "/projects/",
 
-                project,
+                {...project,username},
                 { headers: { Authorization: `Bearer ${currentToken}` } }
             )
             .then(() => {
