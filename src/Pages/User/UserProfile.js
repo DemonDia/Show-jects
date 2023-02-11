@@ -10,6 +10,7 @@ import axios from "axios";
 import ProjectListContainer from "../../Components/Projects/ProjectListContainer";
 import Loader from "../../Components/General/Loader";
 import { Card, Typography, Grid, Box } from "@mui/material";
+import personIcon from "../../Images/personIcon.png"
 function UserProfile() {
     const { userId } = useParams();
     const [loading, setLoading] = useState(true);
@@ -86,7 +87,8 @@ function UserProfile() {
                                                 maxWidth: "100px",
                                                 maxHeight: "100px",
                                                 borderRadius: "50%",
-                                                background: "#d7d7d7",
+                                                backgroundImage: `url(${personIcon})`,
+                                                backgroundSize:"100%",
                                                 margin: "auto",
                                             }}
                                         ></Box>

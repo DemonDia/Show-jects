@@ -154,7 +154,7 @@ function IndividualProjectPage() {
                                         Back
                                     </Link>
                                 </Typography>
-                                <Box>
+                                <Box sx = {{width:"100%"}}>
                                     <img
                                         src={
                                             currentProject.projectPicture.url
