@@ -90,7 +90,18 @@ function ProjectListContainer({
                     padding: "10px",
                 }}
             >
-                <Grid container>
+                <Grid
+                    container
+                    sx={{
+                        width: {
+                            xs: "100vw",
+                            sm: "90vw",
+                            md: "80vw",
+                            lg: "70vw",
+                        },
+                        margin: "auto",
+                    }}
+                >
                     {projects != null ? (
                         <>
                             {projects.length > 0 ? (
@@ -139,7 +150,7 @@ function ProjectListContainer({
                                 <>
                                     <Typography
                                         variant="h5"
-                                        sx={{ margin: "auto",padding:"20px" }}
+                                        sx={{ margin: "auto", padding: "20px" }}
                                         // textAlign
                                     >
                                         No projects to show ..

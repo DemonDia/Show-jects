@@ -41,15 +41,13 @@ function UserProfile() {
                 dispatch(userActions.logout());
                 setLoading(false);
             });
-            Promise.allSettled([profilePromise, projectPromise]).then(
-                (res) => {
-                    console.log(res);
-                    const [profileResult, projectResults] = res;
-                    setUser(profileResult.value.data.user);
-                    setProjects(projectResults.value.data.data);
-                }
-            );
-            setLoading(false);
+        Promise.allSettled([profilePromise, projectPromise]).then((res) => {
+            console.log(res);
+            const [profileResult, projectResults] = res;
+            setUser(profileResult.value.data.user);
+            setProjects(projectResults.value.data.data);
+        });
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -74,6 +72,7 @@ function UserProfile() {
                                         xs: "100vw",
                                         sm: "90vw",
                                         md: "80vw",
+                                        lg: "70vw",
                                     },
                                     margin: "auto",
                                 }}

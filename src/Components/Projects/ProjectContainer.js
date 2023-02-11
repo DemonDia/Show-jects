@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-    Card,
-    Grid,
-    Typography,
-    Button,
-    Badge,
-    Paper,
-} from "@mui/material";
+import { Card, Grid, Typography, Button, Badge, Paper } from "@mui/material";
 import { Link } from "react-router-dom";
 import ShareDialog from "./ShareDialog";
 
@@ -20,7 +13,7 @@ import ShareIcon from "@mui/icons-material/Share";
 
 // helper function
 import { formatDate } from "../../HelperFunctions/dateFormats";
-import ProjectIcon from "../../Images/defaultproject.png"
+import ProjectIcon from "../../Images/defaultproject.png";
 
 function ProjectContainer({
     project,
@@ -51,13 +44,17 @@ function ProjectContainer({
 
     return (
         <>
-            <Grid item xs={6} sm={4} md={3} lg={2}>
+            <Grid item xs={6} md={4} lg={3}>
                 <Card sx={{ margin: "10px", padding: "10px" }}>
                     <Paper>
                         <img
                             object-fit="cover"
                             className={"projectImageContainer"}
-                            src={projectPicture.url?projectPicture.url:ProjectIcon}
+                            src={
+                                projectPicture.url
+                                    ? projectPicture.url
+                                    : ProjectIcon
+                            }
                             style={{
                                 maxWidth: "100%",
                             }}
