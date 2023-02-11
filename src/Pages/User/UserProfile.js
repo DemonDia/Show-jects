@@ -106,7 +106,12 @@ function UserProfile() {
                                             {projects.length} Projects
                                         </Typography>
                                         <Typography textAlign={"left"}>
-                                            {user.email}
+                                            <a
+                                                href={`mailto:${user.email}`}
+                                                target={"_blank"}
+                                            >
+                                                {user.email}
+                                            </a>
                                         </Typography>
                                     </Grid>
                                 </Grid>
