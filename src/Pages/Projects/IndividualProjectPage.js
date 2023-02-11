@@ -233,34 +233,53 @@ function IndividualProjectPage() {
                                         }}
                                     />
                                     <hr />
-                                    <Typography
-                                        variant="h6"
-                                        textAlign={"left"}
-                                        sx={{
-                                            padding: "10px;",
-                                            margin: "10px;",
-                                        }}
-                                    >
-                                        Links:
-                                    </Typography>
-                                    <ul>
-                                        {currentProject.projectLinks.map(
-                                            (projectLink, index) => {
-                                                const { linkName, url } =
-                                                    projectLink;
-                                                return (
-                                                    <li key={index}>
-                                                        <a
-                                                            href={url}
-                                                            target={"_blank"}
-                                                        >
-                                                            {linkName}
-                                                        </a>
-                                                    </li>
-                                                );
-                                            }
-                                        )}
-                                    </ul>
+                                    {currentProject.projectLinks.length > 0 ? (
+                                        <>
+                                            {" "}
+                                            <Typography
+                                                variant="h6"
+                                                textAlign={"left"}
+                                                sx={{
+                                                    padding: "10px;",
+                                                    margin: "10px;",
+                                                }}
+                                            >
+                                                Links:
+                                            </Typography>
+                                            <ul>
+                                                {currentProject.projectLinks.map(
+                                                    (projectLink, index) => {
+                                                        const {
+                                                            linkName,
+                                                            url,
+                                                        } = projectLink;
+                                                        return (
+                                                            <li key={index}>
+                                                                <a
+                                                                    href={url}
+                                                                    target={
+                                                                        "_blank"
+                                                                    }
+                                                                >
+                                                                    {linkName}
+                                                                </a>
+                                                            </li>
+                                                        );
+                                                    }
+                                                )}
+                                            </ul>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Typography
+                                                variant={"h5"}
+                                                textAlign={"center"}
+                                            >
+                                                No links available for this
+                                                project.
+                                            </Typography>
+                                        </>
+                                    )}
                                     <hr />
                                     <Grid container spacing={2}>
                                         <Grid
