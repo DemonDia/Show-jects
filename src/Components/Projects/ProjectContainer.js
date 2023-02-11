@@ -20,6 +20,7 @@ import ShareIcon from "@mui/icons-material/Share";
 
 // helper function
 import { formatDate } from "../../HelperFunctions/dateFormats";
+import ProjectIcon from "../../Images/defaultproject.png"
 
 function ProjectContainer({
     project,
@@ -56,7 +57,7 @@ function ProjectContainer({
                         <img
                             object-fit="cover"
                             className={"projectImageContainer"}
-                            src={projectPicture.url}
+                            src={projectPicture.url?projectPicture.url:ProjectIcon}
                             style={{
                                 maxWidth: "100%",
                             }}

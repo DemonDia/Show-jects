@@ -15,6 +15,7 @@ import ProjectLinkRow from "./ProjectLinkRow";
 import Loader from "../General/Loader";
 
 import { formatDate } from "../../HelperFunctions/dateFormats";
+import DefaultProjectIcon from "../../Images/defaultproject.png";
 
 function ProjectForm({
     submitFunction,
@@ -226,7 +227,11 @@ function ProjectForm({
                         </Typography>
                         <Paper variant="outlined">
                             <img
-                                src={imagePreviewURL}
+                                src={
+                                    imagePreviewURL
+                                        ? imagePreviewURL
+                                        : DefaultProjectIcon
+                                }
                                 alt={"Add image"}
                                 style={{
                                     width: "100%",

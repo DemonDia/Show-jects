@@ -7,6 +7,7 @@ import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../Store";
+import DefaultProjectIcon from "../../Images/defaultproject.png";
 
 import {
     Card,
@@ -156,24 +157,19 @@ function IndividualProjectPage() {
                                     </Link>
                                 </Typography>
                                 <Box>
-                                    {currentProject.projectPicture.url ? (
-                                        <>
-                                            {" "}
-                                            <img
-                                                src={
-                                                    currentProject
-                                                        .projectPicture.url
-                                                }
-                                                alt={"Add image"}
-                                                style={{
-                                                    width: "100%",
-                                                    margin: "auto",
-                                                }}
-                                            />
-                                        </>
-                                    ) : (
-                                        <></>
-                                    )}
+                                    <img
+                                        src={
+                                            currentProject.projectPicture.url
+                                                ? currentProject.projectPicture
+                                                      .url
+                                                : DefaultProjectIcon
+                                        }
+                                        alt={"Add image"}
+                                        style={{
+                                            width: "100%",
+                                            margin: "auto",
+                                        }}
+                                    />
                                 </Box>
                                 <Box>
                                     <Typography
