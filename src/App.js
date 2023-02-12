@@ -26,6 +26,9 @@ import ProjectListPage from "./Pages/Projects/ProjectListPage";
 import EditProjectPage from "./Pages/Projects/EditProjectPage";
 import IndividualProjectPage from "./Pages/Projects/IndividualProjectPage";
 
+// ======================chat======================
+import Userchat from "./Pages/Chat/Userchat";
+
 // ======================users======================
 import UserProfile from "./Pages/User/UserProfile";
 
@@ -77,6 +80,9 @@ function App() {
                         path="/projects/:projectId"
                         element={<IndividualProjectPage />}
                     />
+
+                    {/* ======================chat====================== */}
+                    <Route exact path="/chat" element={<Userchat />} />
 
                     {/* ======================users====================== */}
                     <Route

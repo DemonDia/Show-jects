@@ -1,9 +1,7 @@
 const formatDate = (isoDate) => {
-    console.log(isoDate);
     const dateInMS = Date.parse(isoDate);
     // + now.getTimezoneOffset() * 60 * 1000;
     const correctDate = new Date(dateInMS);
-    console.log(correctDate);
 
     const year = correctDate.getFullYear();
     const month = correctDate.getMonth() + 1;

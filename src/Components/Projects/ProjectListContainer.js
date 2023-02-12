@@ -22,7 +22,6 @@ function ProjectListContainer({
     const [search, setSearch] = useState("");
     const [sortBy, setSortBy] = useState(0);
     const sortingOrder = ["Select ...", "Name (A-Z)", "Name(Z-A)"];
-    console.log("pathname", pathname);
     return (
         <>
             {!pathname.includes("/user/profile/") ? (

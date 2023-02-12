@@ -30,6 +30,10 @@ function Homepage() {
             to: "/user/projects",
         },
         {
+            label: "Chat",
+            to: "/chat",
+        },
+        {
             label: "View Profile",
             to: "/user/profile",
         },
