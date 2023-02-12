@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Card, Grid, Typography, Button, Badge, Paper } from "@mui/material";
+import {
+    Card,
+    Grid,
+    Typography,
+    Button,
+    Badge,
+    LinearProgress,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import ShareDialog from "./ShareDialog";
 
@@ -41,6 +48,43 @@ function ProjectContainer({
         "Finding Manpower",
         "Finding Investors",
     ];
+
+    const [isLiking, setIsLiking] = useState(false);
+    const [message, setMessage] = useState("");
+    const likeProject = async (projectId, userId) => {
+        setIsLiking(true);
+        if (!likes.includes(userId)) {
+            setMessage("Liking ...");
+        } else {
+            setMessage("Un-liking ...");
+        }
+        await handleLike(projectId, userId)
+            .then(() => {
+                setIsLiking(false);
+                if (!likes.includes(userId)) {
+                    setMessage("Liked!");
+                } else {
+                    setMessage("Un-liked!");
+                }
+                messageVanish();
+            })
+            .catch(() => {
+                setIsLiking(false);
+                if (likes.includes(userId)) {
+                    setMessage("Like failed!");
+                } else {
+                    setMessage("Unlike failed!");
+                }
+                messageVanish();
+            });
+    };
+
+    const messageVanish = () => {
+        const timer = setTimeout(() => {
+            setMessage("");
+        }, 2000);
+        return () => clearTimeout(timer);
+    };
 
     return (
         <>
@@ -175,8 +219,8 @@ function ProjectContainer({
                                 >
                                     <Button
                                         variant={"filled"}
-                                        onClick={async () => {
-                                            await handleLike(_id, userId);
+                                        onClick={() => {
+                                            likeProject(_id, userId);
                                         }}
                                     >
                                         <Link
@@ -246,6 +290,23 @@ function ProjectContainer({
                                 </Grid>
                             </Grid>
                         </>
+                    )}
+
+                    {/* handle */}
+                    {/* {message ? <>{isLiking ? <></> : <></>}</> : <></>} */}
+                    {message ? (
+                        <>
+                            {message}
+                            {isLiking ? (
+                                <>
+                                    <LinearProgress color="success" />
+                                </>
+                            ) : (
+                                <></>
+                            )}
+                        </>
+                    ) : (
+                        <></>
                     )}
 
                     {/* edit/delete */}

@@ -19,6 +19,7 @@ import {
     Box,
     TextField,
     Badge,
+    LinearProgress,
 } from "@mui/material";
 import Loader from "../../Components/General/Loader";
 import ShareDialog from "../../Components/Projects/ShareDialog";
@@ -74,8 +75,24 @@ function IndividualProjectPage() {
     };
 
     // ==================likes==================
+    const [isLiking, setIsLiking] = useState(false);
+    const [message, setMessage] = useState("");
+
+    const messageVanish = () => {
+        const timer = setTimeout(() => {
+            setMessage("");
+        }, 2000);
+        return () => clearTimeout(timer);
+    };
+
     const handleLike = async (projectId, userId) => {
         if (userId) {
+            setIsLiking(true);
+            if (!currentProject.likes.includes(userId)) {
+                setMessage("Liking ...");
+            } else {
+                setMessage("Un-liking ...");
+            }
             await axios
                 .put(
                     `${process.env.REACT_APP_API_LINK}/projects/like/${projectId}`,
@@ -85,9 +102,24 @@ function IndividualProjectPage() {
                     { headers: { Authorization: `Bearer ${currentToken}` } }
                 )
                 .then(async () => {
+                    setIsLiking(false);
+                    if (!currentProject.likes.includes(userId)) {
+                        setMessage("Liked!");
+                    } else {
+                        setMessage("Un-liked!");
+                    }
+                    messageVanish();
                     await getCurrentProject();
                 })
-                .catch((err) => {});
+                .catch((err) => {
+                    setIsLiking(false);
+                    if (!currentProject.likes.includes(userId)) {
+                        setMessage("Like failed!");
+                    } else {
+                        setMessage("Unlike failed!");
+                    }
+                    messageVanish();
+                });
         } else {
             alert("You must login to like or comment!");
         }
@@ -400,6 +432,20 @@ function IndividualProjectPage() {
                                             </Button>
                                         </Grid>
                                     </Grid>
+                                    {message ? (
+                                        <>
+                                            {message}
+                                            {isLiking ? (
+                                                <>
+                                                    <LinearProgress color="success" />
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )}
+                                        </>
+                                    ) : (
+                                        <></>
+                                    )}
                                     <hr />
                                     {id ? (
                                         <>
