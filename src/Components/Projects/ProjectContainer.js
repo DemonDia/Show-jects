@@ -14,6 +14,7 @@ import ShareIcon from "@mui/icons-material/Share";
 // helper function
 import { formatDate } from "../../HelperFunctions/dateFormats";
 import ProjectIcon from "../../Images/defaultproject.png";
+import ProfilePic from "../../Images/personIcon.png";
 
 function ProjectContainer({
     project,
@@ -25,7 +26,6 @@ function ProjectContainer({
     const {
         _id,
         projectName,
-        projectDescription,
         projectPicture,
         likes,
         comments,
@@ -46,42 +46,58 @@ function ProjectContainer({
         <>
             <Grid item xs={6} md={4} lg={3}>
                 <Card sx={{ margin: "10px", padding: "10px" }}>
-                    <Paper>
-                        <img
-                            object-fit="cover"
-                            className={"projectImageContainer"}
-                            src={
-                                projectPicture.url
-                                    ? projectPicture.url
-                                    : ProjectIcon
-                            }
-                            style={{
-                                maxWidth: "100%",
-                            }}
-                        />
-                    </Paper>
-                    <Typography variant={"h5"} textAlign={"left"}>
-                        {projectName}
-                    </Typography>
-                    {isOwner && userId == ownerId ? (
+                    {isOwner ? (
                         <></>
                     ) : (
                         <>
-                            {" "}
-                            <Typography variant={"h6"} textAlign={"left"}>
-                                By:{" "}
-                                <a href={userProfileUrl} target={"_blank"}>
+                            <Typography
+                                variant={"h5"}
+                                textAlign={"left"}
+                                sx={{ display: "flex" }}
+                            >
+                                <a
+                                    href={userProfileUrl}
+                                    target={"_blank"}
+                                    style={{
+                                        display: "flex",
+                                        alignItems: "end",
+                                        gap: "10px",
+                                        textDecoration: "none",
+                                        color: "black",
+                                    }}
+                                >
+                                    <img
+                                        src={ProfilePic}
+                                        style={{
+                                            width: "40px",
+                                            height: "40px",
+                                            borderRadius: "50%",
+                                            margin: "5px auto",
+                                        }}
+                                    />
                                     {username}
                                 </a>
                             </Typography>
                         </>
                     )}
-
-                    <Typography variant={"subtitle2"} textAlign={"left"}>
-                        {projectDescription}
-                    </Typography>
                     <Typography variant={"subtitle2"} textAlign={"left"}>
                         {formatDate(addedDate)}
+                    </Typography>
+                    <hr />
+                    <img
+                        object-fit="cover"
+                        className={"projectImageContainer"}
+                        src={
+                            projectPicture.url
+                                ? projectPicture.url
+                                : ProjectIcon
+                        }
+                        style={{
+                            maxWidth: "100%",
+                        }}
+                    />
+                    <Typography variant={"h5"} textAlign={"left"}>
+                        {projectName}
                     </Typography>
 
                     <Badge
@@ -90,6 +106,7 @@ function ProjectContainer({
                         sx={{
                             "& .MuiBadge-badge": {
                                 width: "max-content",
+                                padding: "10px",
                                 background: "#0cb268",
                             },
                         }}
@@ -289,6 +306,7 @@ function ProjectContainer({
                                     color: "white",
                                 }}
                                 to={`/projects/${_id}`}
+                                target={"_blank"}
                             >
                                 <Button
                                     variant={"filled"}

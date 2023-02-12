@@ -7,7 +7,9 @@ import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../../Store";
+
 import DefaultProjectIcon from "../../Images/defaultproject.png";
+import DefaultProfilePic from "../../Images/personIcon.png";
 
 import {
     Card,
@@ -154,7 +156,51 @@ function IndividualProjectPage() {
                                         Back
                                     </Link>
                                 </Typography>
-                                <Box sx = {{width:"100%"}}>
+                                <hr />
+                                <Typography
+                                    variant={"h5"}
+                                    textAlign={"left"}
+                                    sx={{
+                                        margin: "10px;",
+                                        display: "flex",
+                                    }}
+                                >
+                                    <a
+                                        href={`${process.env.REACT_APP_UI_LINK}user/profile/${currentProject.userId}`}
+                                        target={"_blank"}
+                                        style={{
+                                            display: "flex",
+                                            alignItems: "end",
+                                            gap: "10px",
+                                        }}
+                                    >
+                                        <img
+                                            src={DefaultProfilePic}
+                                            style={{
+                                                width: "40px",
+                                                height: "40px",
+                                                borderRadius: "50%",
+                                                margin: "5px auto",
+                                                textDecoration: "none",
+                                                color: "black",
+                                            }}
+                                        />
+                                        {username}
+                                    </a>
+                                </Typography>
+                                <Typography
+                                    variant="h6"
+                                    textAlign={"left"}
+                                    sx={{
+                                        margin: "10px;",
+                                    }}
+                                >
+                                    {formatDate(currentProject.addedDate)}
+                                </Typography>
+
+                                <hr />
+
+                                <Box sx={{ width: "100%" }}>
                                     <img
                                         src={
                                             currentProject.projectPicture.url
@@ -177,47 +223,20 @@ function IndividualProjectPage() {
                                             margin: "10px;",
                                         }}
                                     >
-                                        Project Name:{" "}
+                                        Project Name:
                                         {currentProject.projectName}
                                     </Typography>
                                     <Typography
-                                        variant={"h5"}
-                                        textAlign={"left"}
-                                        sx={{
-                                            margin: "10px;",
-                                        }}
-                                    >
-                                        By:{" "}
-                                        <a
-                                            href={`${process.env.REACT_APP_UI_LINK}user/profile/${currentProject.userId}`}
-                                            target={"_blank"}
-                                        >
-                                            {username}
-                                        </a>
-                                    </Typography>
-                                    <hr />
-                                    <Typography
                                         variant="h5"
                                         textAlign={"left"}
                                         sx={{
                                             margin: "10px;",
                                         }}
                                     >
+                                        Project Description:
                                         {currentProject.projectDescription}
                                     </Typography>
-                                    <hr />
-                                    <Typography
-                                        variant="h5"
-                                        textAlign={"left"}
-                                        sx={{
-                                            margin: "10px;",
-                                        }}
-                                    >
-                                        Uploaded at :{" "}
-                                        {formatDate(currentProject.addedDate)}
-                                    </Typography>{" "}
-                                    <></>
-                                    )}
+
                                     <Badge
                                         badgeContent={
                                             statuses[currentProject.status]

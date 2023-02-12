@@ -10,7 +10,7 @@ import axios from "axios";
 import ProjectListContainer from "../../Components/Projects/ProjectListContainer";
 import Loader from "../../Components/General/Loader";
 import { Card, Typography, Grid, Box } from "@mui/material";
-import personIcon from "../../Images/personIcon.png"
+import personIcon from "../../Images/personIcon.png";
 function UserProfile() {
     const { userId } = useParams();
     const [loading, setLoading] = useState(true);
@@ -88,7 +88,7 @@ function UserProfile() {
                                                 maxHeight: "100px",
                                                 borderRadius: "50%",
                                                 backgroundImage: `url(${personIcon})`,
-                                                backgroundSize:"100%",
+                                                backgroundSize: "100%",
                                                 margin: "auto",
                                             }}
                                         ></Box>
@@ -122,14 +122,8 @@ function UserProfile() {
                     ) : (
                         <></>
                     )}
-
                     <hr />
-                    <Card>
-                        <ProjectListContainer
-                            projects={projects}
-                            isOwner={false}
-                        />
-                    </Card>
+                    <ProjectListContainer projects={projects} isOwner={false} />
 
                     {/* user projects (sort from latest) */}
                 </>
