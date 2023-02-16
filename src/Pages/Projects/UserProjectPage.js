@@ -36,13 +36,14 @@ function UserProjectPage() {
     const getUserProjects = async (id) => {
         setLoading(true);
         axios
-            .get(`${process.env.REACT_APP_API_LINK}/projects/user/${id}`, {
-            })
+            .get(`${process.env.REACT_APP_API_LINK}/projects/user/${id}`, {})
             .then((result) => {
                 setUserProjects(result.data.data);
                 setLoading(false);
             })
-            .catch((err) => {});
+            .catch((err) => {
+                setLoading(false);
+            });
     };
 
     const handleDelete = async (projectId) => {
