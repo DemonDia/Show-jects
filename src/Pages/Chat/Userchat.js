@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Paper, Card, Grid, Typography } from "@mui/material";
+import React, { useState, useEffect, useRef } from "react";
+import { Box, Card, Grid, TextField, Typography } from "@mui/material";
 import {
     defaultAuthCheck,
     getCurrentUser,
@@ -16,6 +16,7 @@ function Userchat() {
     // load all messages when user select chat
     const [loading, setLoading] = useState(false);
     const [chats, setChats] = useState([]);
+    const ref = useRef(null);
     const id = useSelector((state) => state.id);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -32,6 +33,8 @@ function Userchat() {
             await getChatMessages(newChatId);
         }
     };
+
+    const [message, setMessage] = useState(null);
 
     const getChatMessages = async (chatId) => {
         const currentToken = localStorage.getItem("userToken");
@@ -50,7 +53,6 @@ function Userchat() {
 
     const loadChats = async (id) => {
         const currentToken = localStorage.getItem("userToken");
-        setLoading(true);
         await axios
             .get(`${process.env.REACT_APP_API_LINK}/chats/user/${id}`, {
                 headers: { Authorization: `Bearer ${currentToken}` },
@@ -77,9 +79,35 @@ function Userchat() {
             });
     };
 
+    const handleKeypress = async (e) => {
+        if (e.keyCode === 13) {
+            if (message) {
+                const currentToken = localStorage.getItem("userToken");
+                await axios
+                    .put(
+                        `${process.env.REACT_APP_API_LINK}/chats/message/`,
+                        {
+                            userId: id,
+                            chatId: selectedChatId,
+                            message,
+                        },
+                        { headers: { Authorization: `Bearer ${currentToken}` } }
+                    )
+                    .then(async () => {
+                        setMessage("");
+                        await getChatMessages(selectedChatId);
+                    });
+            }
+        }
+    };
+
     useEffect(() => {
         loadPage();
     }, []);
+
+    useEffect(() => {
+        ref.current?.scrollIntoView();
+    }, [selectedChat]);
 
     return (
         <div>
@@ -153,9 +181,9 @@ function Userchat() {
                             </Card>
                         </Grid>
                         <Grid item xs={8} md={9}>
-                            <Card
+                            <Box
                                 sx={{
-                                    minHeight: "80vh",
+                                    height: "80vh",
                                     padding: "10px",
                                     display: "block",
                                 }}
@@ -165,27 +193,143 @@ function Userchat() {
                                         {" "}
                                         <Card
                                             sx={{
+                                                height: "10%",
                                                 width: "100%",
-                                                padding: "10px",
+                                                display: "flex",
                                             }}
                                         >
                                             <Typography
                                                 variant={"h5"}
                                                 mb={1}
                                                 sx={{
-                                                    padding: "10px",
+                                                    margin: "0 auto",
+                                                    alignSelf: "center",
                                                 }}
                                             >
                                                 {selectedChat.otherUser.name}
                                             </Typography>
                                         </Card>
+                                        {/* messages */}
+                                        <Card
+                                            sx={{
+                                                height: "80%",
+                                                width: "100%",
+                                                // overflow:"hidden",
+                                                overflowY: "auto",
+                                                // padding: "50px 0"
+                                            }}
+                                        >
+                                            {selectedChat.messages.length ==
+                                            0 ? (
+                                                <>
+                                                    <h1>Nothing to see here</h1>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    {selectedChat.messages.map(
+                                                        (currMessage) => {
+                                                            const {
+                                                                message,
+                                                                userId,
+                                                            } = currMessage;
+                                                            return (
+                                                                <Box
+                                                                    sx={{
+                                                                        margin: "0 auto",
+                                                                        marginTop:
+                                                                            "5px",
+                                                                        // width: "90%",
+                                                                        display:
+                                                                            "flex",
+                                                                        justifyContent:
+                                                                            userId !=
+                                                                            id
+                                                                                ? "flex-start"
+                                                                                : "flex-end",
+                                                                    }}
+                                                                >
+                                                                    <Typography
+                                                                        variant={
+                                                                            "subtitle1"
+                                                                        }
+                                                                        style={{
+                                                                            display:
+                                                                                "block",
+                                                                            wordWrap:
+                                                                                "break-word",
+                                                                            maxWidth:
+                                                                                "60%",
+                                                                            marginLeft:
+                                                                                userId !=
+                                                                                id
+                                                                                    ? "20px"
+                                                                                    : "40px",
+                                                                            marginRight:
+                                                                                userId !=
+                                                                                id
+                                                                                    ? "40px"
+                                                                                    : "20px",
+                                                                            borderRadius:
+                                                                                userId !=
+                                                                                id
+                                                                                    ? "12px 12px 12px 0"
+                                                                                    : "12px 12px 0 12px",
+                                                                            color:
+                                                                                userId !=
+                                                                                id
+                                                                                    ? "black"
+                                                                                    : "white",
+                                                                            background:
+                                                                                userId !=
+                                                                                id
+                                                                                    ? "#f1eeee"
+                                                                                    : "#309f6e",
+                                                                            padding:
+                                                                                "10px",
+                                                                            textAlign:
+                                                                                userId !=
+                                                                                id
+                                                                                    ? "left"
+                                                                                    : "right",
+                                                                        }}
+                                                                    >
+                                                                        {
+                                                                            message
+                                                                        }
+                                                                    </Typography>
+                                                                </Box>
+                                                            );
+                                                        }
+                                                    )}{" "}
+                                                </>
+                                            )}
+                                            <div ref={ref} />
+                                        </Card>
                                         <Card
                                             sx={{
                                                 width: "100%",
-                                                padding: "10px",
-                                                background: "red",
+                                                height: "10%",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                // padding: "10px",
                                             }}
-                                        ></Card>
+                                        >
+                                            <TextField
+                                                sx={{
+                                                    width: "100%",
+                                                    padding: "10px",
+                                                    margin: "0 auto",
+                                                }}
+                                                onKeyDown={(e) => {
+                                                    handleKeypress(e);
+                                                }}
+                                                placeholder="Say something ..."
+                                                value={message}
+                                                onChange={(e) => {
+                                                    setMessage(e.target.value);
+                                                }}
+                                            />
+                                        </Card>
                                     </>
                                 ) : (
                                     <Card
@@ -205,7 +349,7 @@ function Userchat() {
                                         </Typography>
                                     </Card>
                                 )}
-                            </Card>
+                            </Box>
                         </Grid>
                     </Grid>
                 </>
