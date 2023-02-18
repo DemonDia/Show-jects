@@ -52,7 +52,6 @@ function Userchat() {
                 }
             )
             .then((result) => {
-                console.log(result.data);
                 const { otherUser, messages } = result.data;
                 setChatMessages(messages);
                 getOtherUser(otherUser);
@@ -91,39 +90,55 @@ function Userchat() {
     const handleKeypress = async (e) => {
         if (e.keyCode === 13) {
             if (message) {
+                const newMessage = {
+                    userId: id,
+                    chatId: selectedChatId,
+                    message,
+                    sentDate: new Date(),
+                };
+                socket.current.emit("sendMessage", {
+                    message: newMessage,
+                    receiverId: otherUser._id,
+                });
                 const currentToken = localStorage.getItem("userToken");
                 await axios
                     .put(
                         `${process.env.REACT_APP_API_LINK}/chats/message/`,
-                        {
-                            userId: id,
-                            chatId: selectedChatId,
-                            message,
-                        },
+                        newMessage,
                         { headers: { Authorization: `Bearer ${currentToken}` } }
                     )
                     .then(async () => {
                         setMessage("");
-                        await getChatMessages(selectedChatId);
                     });
             }
         }
     };
-
     // ====================sockets=====================
-    const socket = useRef(io(process.env.REACT_APP_SOCKET_LINK));
+    const socket = useRef();
+    const [arrivalMessage, setArrivalMessage] = useState(null);
+    useEffect(() => {
+        ref.current?.scrollIntoView();
+    }, [chatMessages]);
+
     useEffect(() => {
         if (id) {
             socket.current.emit("addUser", id);
-            socket.current.on("getUsers", (users) => {
-                console.log("users", users);
-            });
+
         }
     }, [id]);
 
     useEffect(() => {
-        // console.log(process.env.REACT_APP_SOCKET_LINK);
+        if (arrivalMessage) {
+            setChatMessages([...chatMessages, arrivalMessage]);
+        }
+    }, [arrivalMessage]);
+
+    useEffect(() => {
         loadPage();
+        socket.current = io(process.env.REACT_APP_SOCKET_LINK);
+        socket.current.on("getMessage", (message) => {
+            setArrivalMessage(message);
+        });
     }, []);
     return (
         <div>
