@@ -9,8 +9,10 @@ import { userActions } from "../../Store";
 import axios from "axios";
 import ProjectListContainer from "../../Components/Projects/ProjectListContainer";
 import Loader from "../../Components/General/Loader";
-import { Card, Typography, Grid, Box } from "@mui/material";
+import { Card, Typography, Grid, Box, Button } from "@mui/material";
 import personIcon from "../../Images/personIcon.png";
+import StartChat from "../../Components/Chat/StartChat";
+
 function UserProfile() {
     const { userId } = useParams();
     const [loading, setLoading] = useState(true);
@@ -32,6 +34,130 @@ function UserProfile() {
         `${process.env.REACT_APP_API_LINK}/projects/user/${userId}`
     );
 
+    // message user
+    const [modalOpen, setModalOpen] = useState(false);
+    const closeModal = () => {
+        setModalOpen(false);
+    };
+
+    const sendMessage = async (message) => {
+        if (!message) {
+            alert("Message cannot be empty");
+            setModalOpen(false);
+        } else {
+            const currentToken = localStorage.getItem("userToken");
+            const findChatPromise = axios.get(
+                `${process.env.REACT_APP_API_LINK}/chats/u1/${id}/u2/${user._id}`,
+                {
+                    headers: { Authorization: `Bearer ${currentToken}` },
+                }
+            );
+            const createChatPromise = axios.post(
+                `${process.env.REACT_APP_API_LINK}/chats/`,
+                { userIds: [id, user._id] },
+                {
+                    headers: {
+                        Authorization: `Bearer ${currentToken}`,
+                    },
+                }
+            );
+            Promise.allSettled([findChatPromise, createChatPromise]).then(
+                async (promiseResults) => {
+                    let chatId;
+                    const [findChatPromiseResult, createChatPromiseResult] =
+                        promiseResults;
+                    if (findChatPromiseResult.status == "fulfilled") {
+                        console.log("chat found")
+                        chatId = findChatPromiseResult.value.data._id;
+                    } else {
+                        console.log("chat created")
+                        chatId = createChatPromiseResult.value.data.chatId;
+                    }
+                    await axios
+                        .put(
+                            `${process.env.REACT_APP_API_LINK}/chats/message`,
+                            {
+                                userId: id,
+                                chatId,
+                                message,
+                            },
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${currentToken}`,
+                                },
+                            }
+                        )
+                        .then(() => {
+                            alert("Message Sent");
+                            setModalOpen(false);
+                        })
+                        .catch((err) => {
+                            alert("Message failed to send!");
+                            setModalOpen(false);
+                        });
+                }
+            );
+            // await axios
+            //     .get(
+            //         `${process.env.REACT_APP_API_LINK}/chats/u1/${id}/u2/${user._id}`,
+            //         {
+            //             headers: { Authorization: `Bearer ${currentToken}` },
+            //         }
+            //     )
+            //     .then(async (result) => {
+            //         // console.log(result.data);
+            //         let chatId = null;
+            //         console.log(chatId);
+            //         if (!result.data) {
+            //             // create new chat
+            //             const newChatPromise = await axios.post(
+            //                 `${process.env.REACT_APP_API_LINK}/chats/`,
+            //                 { userIds: [id, user._id] },
+            //                 {
+            //                     headers: {
+            //                         Authorization: `Bearer ${currentToken}`,
+            //                     },
+            //                 }
+            //             );
+            //             Promise.all([newChatPromise]).then((res) => {
+            //                 const newChatResult = res[0].value;
+            //                 chatId = newChatResult.chatId;
+            //             });
+            //         } else {
+            //             chatId = result.data._id;
+            //         }
+            //         await axios
+            //             .put(
+            //                 `${process.env.REACT_APP_API_LINK}/chats/message`,
+            //                 {
+            //                     userId: id,
+            //                     chatId,
+            //                     message,
+            //                 },
+            //                 {
+            //                     headers: {
+            //                         Authorization: `Bearer ${currentToken}`,
+            //                     },
+            //                 }
+            //             )
+            //             .then(() => {
+            //                 alert("Message Sent");
+            //                 setModalOpen(false);
+            //             })
+            //             .catch((err) => {
+            //                 alert("Message failed to send!");
+            //                 setModalOpen(false);
+            //             });
+            //     })
+            //     .catch((err) => {
+            //         console.log(err);
+            //         alert("Message failed to send!");
+            //         setModalOpen(false);
+            //     });
+        }
+    };
+
+    // load page
     const loadPage = async () => {
         await publicAuthCheck(navigate)
             .then(async (res) => {
@@ -93,7 +219,7 @@ function UserProfile() {
                                             }}
                                         ></Box>
                                     </Grid>
-                                    <Grid item xs={8} sx={{ padding: "20px" }}>
+                                    <Grid item xs={4} sx={{ padding: "20px" }}>
                                         {" "}
                                         <Typography
                                             textAlign={"left"}
@@ -116,8 +242,30 @@ function UserProfile() {
                                             </a>
                                         </Typography>
                                     </Grid>
+                                    <Grid item xs={4} sx={{ padding: "20px" }}>
+                                        {id != user._id ? (
+                                            <>
+                                                {" "}
+                                                <Button
+                                                    onClick={() => {
+                                                        setModalOpen(true);
+                                                    }}
+                                                >
+                                                    Chat
+                                                </Button>
+                                            </>
+                                        ) : (
+                                            <></>
+                                        )}
+                                    </Grid>
                                 </Grid>
                             </Card>
+                            <StartChat
+                                handleClose={closeModal}
+                                isOpen={modalOpen}
+                                sendMessage={sendMessage}
+                                userName={user.name}
+                            />
                         </>
                     ) : (
                         <></>
