@@ -10,6 +10,10 @@ import { userActions } from "../../Store";
 import axios from "axios";
 import Loader from "../../Components/General/Loader";
 
+import { io } from "socket.io-client";
+
+// io.connect(process.env.REACT_APP_SOCKET_LINK);
+
 function Userchat() {
     // get user auth
     // load all chats user have
@@ -22,12 +26,14 @@ function Userchat() {
     const dispatch = useDispatch();
 
     const [selectedChatId, setSelectedChatId] = useState(null);
-    const [selectedChat, setSelectedChat] = useState(null);
+    const [otherUser, getOtherUser] = useState(null);
+    const [chatMessages, setChatMessages] = useState([]);
 
     const handleSelectChat = async (newChatId) => {
         if (newChatId == selectedChatId) {
             setSelectedChatId(null);
-            setSelectedChat(null);
+            getOtherUser(null);
+            setChatMessages([]);
         } else {
             setSelectedChatId(newChatId);
             await getChatMessages(newChatId);
@@ -46,7 +52,10 @@ function Userchat() {
                 }
             )
             .then((result) => {
-                setSelectedChat(result.data);
+                console.log(result.data);
+                const { otherUser, messages } = result.data;
+                setChatMessages(messages);
+                getOtherUser(otherUser);
             })
             .catch((err) => {});
     };
@@ -101,14 +110,21 @@ function Userchat() {
         }
     };
 
+    // ====================sockets=====================
+    const socket = useRef(io(process.env.REACT_APP_SOCKET_LINK));
     useEffect(() => {
+        if (id) {
+            socket.current.emit("addUser", id);
+            socket.current.on("getUsers", (users) => {
+                console.log("users", users);
+            });
+        }
+    }, [id]);
+
+    useEffect(() => {
+        // console.log(process.env.REACT_APP_SOCKET_LINK);
         loadPage();
     }, []);
-
-    useEffect(() => {
-        ref.current?.scrollIntoView();
-    }, [selectedChat]);
-
     return (
         <div>
             {loading ? (
@@ -188,7 +204,7 @@ function Userchat() {
                                     display: "block",
                                 }}
                             >
-                                {selectedChat ? (
+                                {otherUser && selectedChatId ? (
                                     <>
                                         {" "}
                                         <Card
@@ -206,7 +222,7 @@ function Userchat() {
                                                     alignSelf: "center",
                                                 }}
                                             >
-                                                {selectedChat.otherUser.name}
+                                                {otherUser.name}
                                             </Typography>
                                         </Card>
                                         {/* messages */}
@@ -219,14 +235,13 @@ function Userchat() {
                                                 // padding: "50px 0"
                                             }}
                                         >
-                                            {selectedChat.messages.length ==
-                                            0 ? (
+                                            {chatMessages.length == 0 ? (
                                                 <>
                                                     <h1>Nothing to see here</h1>
                                                 </>
                                             ) : (
                                                 <>
-                                                    {selectedChat.messages.map(
+                                                    {chatMessages.map(
                                                         (currMessage) => {
                                                             const {
                                                                 message,
