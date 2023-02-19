@@ -11,6 +11,7 @@ const checkAuthStatus = async (successRoute, failRoute, navigate) => {
             }
         });
     if (successRoute !== "" && loggedUser.status == 200) {
+        await axios.get(process.env.REACT_APP_SOCKET_API)
         navigate(successRoute);
     } else if (failRoute !== "" && !loggedUser.status == 200) {
         navigate(failRoute);
