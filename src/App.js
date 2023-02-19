@@ -1,4 +1,5 @@
 // ====================================general imports====================================
+import React,{useEffect} from "react"
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 
@@ -38,9 +39,15 @@ import UserProjectPage from "./Pages/Projects/UserProjectPage";
 import RedirectPage from "./Pages/Redirect/RedirectPage";
 import ErrorPage from "./Pages/Redirect/ErrorPage";
 
+// import axios from "axios"
 
 function App() {
     const username = useSelector((state) => state.username);
+    // useEffect(()=>{
+    //     axios.get(process.env.REACT_APP_SOCKET_API).then((res)=>{
+    //         console.log("res",res.data)
+    //     })
+    // },[])
     return (
         <div className="App">
             <Navbar />
