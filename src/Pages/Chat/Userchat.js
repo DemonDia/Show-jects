@@ -74,6 +74,7 @@ function Userchat() {
 
     const loadPage = async () => {
         setLoading(true);
+        connectSockets();
         await defaultAuthCheck(navigate)
             .then(async (res) => {
                 const { name, id } = getCurrentUser(res);
@@ -116,14 +117,19 @@ function Userchat() {
     // ====================sockets=====================
     const socket = useRef();
     const [arrivalMessage, setArrivalMessage] = useState(null);
+    const connectSockets = () => {
+        socket.current = io(process.env.REACT_APP_SOCKET_LINK);
+        socket.current.on("getMessage", (message) => {
+            setArrivalMessage(message);
+        });
+    };
     useEffect(() => {
         ref.current?.scrollIntoView();
     }, [chatMessages]);
 
     useEffect(() => {
-        if (id) {
+        if (id && socket.current) {
             socket.current.emit("addUser", id);
-
         }
     }, [id]);
 
@@ -135,10 +141,6 @@ function Userchat() {
 
     useEffect(() => {
         loadPage();
-        socket.current = io(process.env.REACT_APP_SOCKET_LINK);
-        socket.current.on("getMessage", (message) => {
-            setArrivalMessage(message);
-        });
     }, []);
     return (
         <div>
