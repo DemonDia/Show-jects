@@ -41,8 +41,10 @@ function Userchat() {
     };
 
     const [message, setMessage] = useState(null);
+    const [loadingMessages, setLoadingMessages] = useState(false);
 
     const getChatMessages = async (chatId) => {
+        setLoadingMessages(true);
         const currentToken = localStorage.getItem("userToken");
         await axios
             .get(
@@ -55,8 +57,11 @@ function Userchat() {
                 const { otherUser, messages } = result.data;
                 setChatMessages(messages);
                 getOtherUser(otherUser);
+                setLoadingMessages(false);
             })
-            .catch((err) => {});
+            .catch((err) => {
+                setLoadingMessages(false);
+            });
     };
 
     const loadChats = async (id) => {
@@ -364,22 +369,37 @@ function Userchat() {
                                         </Card>
                                     </>
                                 ) : (
-                                    <Card
-                                        className="empty-chat"
-                                        sx={{
-                                            width: "100%",
-                                            height: "100%",
-                                            padding: "10px",
-                                            margin: "auto",
-                                        }}
-                                    >
-                                        <Typography
-                                            variant={"h4"}
-                                            textAlign={"center"}
-                                        >
-                                            Select a chat
-                                        </Typography>
-                                    </Card>
+                                    <>
+                                        {loadingMessages ? (
+                                            <>
+                                                <Loader
+                                                    message={
+                                                        "Fetching messages ..."
+                                                    }
+                                                />
+                                            </>
+                                        ) : (
+                                            <>
+                                                {" "}
+                                                <Card
+                                                    className="empty-chat"
+                                                    sx={{
+                                                        width: "100%",
+                                                        height: "100%",
+                                                        padding: "10px",
+                                                        margin: "auto",
+                                                    }}
+                                                >
+                                                    <Typography
+                                                        variant={"h4"}
+                                                        textAlign={"center"}
+                                                    >
+                                                        Select a chat
+                                                    </Typography>
+                                                </Card>
+                                            </>
+                                        )}
+                                    </>
                                 )}
                             </Box>
                         </Grid>
