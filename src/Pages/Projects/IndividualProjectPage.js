@@ -53,6 +53,7 @@ function IndividualProjectPage() {
     const loadPage = async () => {
         setLoading(true);
         await getCurrentProject(projectId);
+        await getProjectComments();
         await publicAuthCheck(navigate)
             .then(async (res) => {
                 const { name, id } = getCurrentUser(res);
@@ -127,14 +128,22 @@ function IndividualProjectPage() {
 
     // ==================comments==================
     const [comment, setComment] = useState("");
+    const [projectComments, setProjectComments] = useState([]);
     const username = useSelector((state) => state.username);
+
+    const getProjectComments = async () => {
+        await axios
+            .get(`${process.env.REACT_APP_API_LINK}/comments/${projectId}`)
+            .then((res) => {
+                setProjectComments(res.data);
+            })
+            .catch((err) => {});
+    };
     const handleComment = async () => {
         await axios
-            .put(
-                `${process.env.REACT_APP_API_LINK}/projects/comment/add/`,
+            .post(
+                `${process.env.REACT_APP_API_LINK}/comments/`,
                 {
-                    userId: id,
-                    userName: username,
                     projectId,
                     comment,
                 },
@@ -142,7 +151,7 @@ function IndividualProjectPage() {
             )
             .then(async () => {
                 setComment("");
-                await getCurrentProject();
+                await getProjectComments();
             })
             .catch((err) => {});
     };
@@ -490,20 +499,23 @@ function IndividualProjectPage() {
                                         <></>
                                     )}
                                     <Box id={"comments"}>
-                                        {currentProject.comments.length > 0 ? (
+                                        {projectComments.length > 0 ? (
                                             <Box
                                                 sx={{
                                                     padding: "10px",
                                                 }}
                                             >
-                                                {currentProject.comments.map(
+                                                {projectComments.map(
                                                     (comment) => {
                                                         const {
-                                                            commenterId,
-                                                            commenterName,
-                                                            commentContent,
+                                                            commenter,
+                                                            comment:
+                                                                commentContent,
                                                             commentDate,
                                                         } = comment;
+                                                        const { _id, name } =
+                                                            commenter;
+                                                        console.log(commenter);
                                                         return (
                                                             <Card
                                                                 style={{
@@ -520,11 +532,21 @@ function IndividualProjectPage() {
                                                                         "left"
                                                                     }
                                                                 >
-                                                                    <b>
-                                                                        {
-                                                                            commenterName
-                                                                        }
-                                                                    </b>{" "}
+                                                                    <Link
+                                                                        style={{
+                                                                            color: "black",
+                                                                            textDecoration:
+                                                                                "none",
+                                                                        }}
+                                                                        to={`/user/profile/${_id}`}
+                                                                        target="_blank"
+                                                                    >
+                                                                        <b>
+                                                                            {
+                                                                                name
+                                                                            }
+                                                                        </b>
+                                                                    </Link>{" "}
                                                                     at{" "}
                                                                     {new Date(
                                                                         commentDate
